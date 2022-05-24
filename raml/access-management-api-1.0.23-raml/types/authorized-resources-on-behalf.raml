@@ -1,0 +1,63 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for retrieving authorized resources on behalf of an actor
+
+types:
+  ActorTypes:
+    additionalProperties: false
+    properties:
+      userId?: string
+      clientId?: string
+      clientType?: 
+        type: string
+        enum: [platform, connApp]
+      context: 
+        type: string
+        enum: [user, client]
+  
+  ResourceTypes:
+    additionalProperties: false
+    properties:
+      namespace: string
+      action: string
+      resources:
+        type: array
+        items:
+          type: string
+        minItems: 1
+
+  ResourceDetailTypes:
+    type: array
+    items:
+      type: ResourceTypes
+    minItems: 1
+
+  AuthorizeResourcesTypes:
+    type: object
+    properties:
+      actor:
+        type: ActorTypes
+      resourceDetails:
+        type: ResourceDetailTypes
+
+  AuthorizedResponseTypes:
+    additionalProperties: false
+    properties:
+      namespace: string
+      action: string
+      resources:
+        type: array
+        items:
+          type: string
+        minItems: 1
+      authorizedResources:
+        type: array
+        items:
+          type: string
+        minItems: 0
+  
+  AuthorizedResourcesResponseTypes:
+    type: array
+    items:
+      type: AuthorizedResponseTypes
+    minItems: 1 

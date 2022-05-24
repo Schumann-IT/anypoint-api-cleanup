@@ -1,0 +1,16 @@
+{
+  "client_id": "0fa2aa2f0aeb4978b96796a0843f898c",
+  "owner_org_id": "0eb65884-4f75-48f7-a8bc-4e30b46e721d",
+  "client_name": "SampleClient",
+  "client_secret": "B0313ad5a6B44f7ebb4Bf482C49327e1",
+  "public_keys": [],
+  "redirect_uris": [
+    "https://why.net"
+  ],
+  "grant_types": [
+    "client_credentials"
+  ],
+  "scopes": [],
+  "enabled": true,
+  "audience": "internal"
+}

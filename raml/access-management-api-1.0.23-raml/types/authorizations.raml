@@ -1,0 +1,31 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for user authorizations
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+  UserAuthorization:
+    properties:
+      authorization_id:
+        type: string
+        description: The ID of the authorization object
+      created_at:
+        type: datetime
+        description: The time the authorization was created
+      updated_at:
+        type: datetime
+        description: The time the authorization was last modified
+      last_used:
+        type: datetime
+        description: The time the authorization was last used in an OAuth2 flow
+      user_id:
+        type: primitives.uuid
+        description: The ID of the user who granted the authorization
+      client_id:
+        type: primitives.uuid
+        description: The ID of the client who is granted the authorization
+      scopes:
+        type: string[]
+        description: The list of OAuth2 scopes contained in the authorization

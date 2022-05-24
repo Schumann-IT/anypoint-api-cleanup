@@ -1,0 +1,13 @@
+#%RAML 1.0 Trait
+headers:
+  x-search-id:
+    type: string
+    required: false
+    description: |
+      A search Id used by ANG component to track current search
+    example: "1326224a-61eb-41eb-a283-ff7d5ff84921"
+  x-ang-explain:
+    type: boolean
+    required: false
+    description: |
+      Explain the score obtained in the hits returned

@@ -1,0 +1,29 @@
+{
+  "types": [
+    "custom",
+    "http-api"
+  ],
+  "categories": [
+    {
+      "displayName": "My category",
+      "tagKey": "category",
+      "value": "value 1"
+    },
+    {
+      "displayName": "My category",
+      "tagKey": "category",
+      "value": "value 2"
+    }
+  ],
+  "organizations": [
+    {
+      "name": "Organization Inc",
+      "id": "fc12ee3a-6429-4bde-9918-f1059b3f1015",
+      "domain": "my-org",
+      "isMaster": true
+    }
+  ],
+  "tags": [
+    "gustavo"
+  ]
+}

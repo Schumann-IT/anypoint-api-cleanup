@@ -1,0 +1,14 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for validate_organization_grants
+
+types:
+  validateOrganizationSettingsForClientResult:
+    type: object
+    properties:
+      isSuccessful:
+        type: boolean
+      errorMessages:
+        type: array
+        items:
+          type: string

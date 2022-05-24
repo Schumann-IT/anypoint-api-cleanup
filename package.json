@@ -1,0 +1,17 @@
+{
+  "name": "anypoint-api-converter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webapi-parser": "^0.5.0"
+  },
+  "scripts": {
+    "apimanager": "node index.js 1.0 raml/access-management-api-1.0.23-raml/apiV1.raml apimanager",
+    "authorization": "node index.js 0.8 raml/api-manager-api-1.0.15-raml/apiManagerV1.raml authorization",
+    "exchange": "node index.js 1.0 raml/exchange-experience-api-2.1.2-raml/api.v2.raml exchange"
+  }
+}

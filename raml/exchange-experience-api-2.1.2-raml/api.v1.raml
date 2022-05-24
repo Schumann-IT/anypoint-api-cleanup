@@ -1,0 +1,1368 @@
+#%RAML 0.8
+title: exchange-xapi
+version: 0.1
+mediaType: application/json
+baseUri: https://anypoint.mulesoft.com/exchange/api/v1
+
+traits:
+  - pagesOrderRevisionHeader: !include traits/pagesOrderRevisionHeader.raml
+  - pagesOrderRevisionResponseHeader: !include traits/pagesOrderRevisionResponseHeader.raml
+  - searchable: !include traits/searchable.raml
+  - assetWithVersions: !include traits/assetWithVersions.raml
+  - deleteable: !include traits/deleteable.raml
+  - deleteableByForce: !include traits/deleteableByForce.raml
+  - updateableByForce: !include traits/updateableByForce.raml
+  - pagination: !include traits/pagination.raml
+  - pagePoster:
+      description: |
+          Creates an empty page for a draft version. Remember that:
+          - A page cannot be moved/created to/in a path that already contains another page with the same name.
+      headers:
+        x-move-source:
+          type: string
+          description: |
+            This header is used when you want to rename or move an existing page.
+            `x-move-source` specifies the path of the page or folder that wants to be moved, the source.
+            The request body property `path` will be the destination.
+          example: "/examples/"
+      body:
+        schema: !include schemas/pageCreate.json
+        example: !include examples/pageCreate.json
+
+resourceTypes:
+  - assets:
+      usage: Use this resourceType to represent a collection of assets
+      description: A collection of assets
+      is: [searchable, pagination]
+      get:
+        description: Get a paginated set of assets
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/assets.json
+                example: !include examples/assets.json
+
+  - portal: !include resourceTypes/portal.raml
+
+  - page: !include resourceTypes/page.raml
+
+  - pagesOrder: !include resourceTypes/pagesOrder.raml
+
+  - editablePage: !include resourceTypes/editablePage.raml
+
+  - pages: !include resourceTypes/pages.raml
+
+  - users:
+      usage: Use this resourceType to represent a collection of users
+      description: A collection of users
+      get:
+        description: Get users for an organization
+        is: [ pagination ]
+        queryParameters:
+          search:
+            displayName: Search
+            type: string
+            description: Filter results that partially match the input with the asset name
+            example: "My example"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/users.json
+                example: !include examples/users.json
+
+  - reviews: !include resourceTypes/reviews.raml
+
+  - review: !include resourceTypes/review.raml
+
+  - rating: !include resourceTypes/rating.raml
+
+  - comments: !include resourceTypes/comments.raml
+
+  - comment: !include resourceTypes/comment.raml
+
+  - assetUsers: !include resourceTypes/assetUsers.raml
+
+  - clientApplications: !include resourceTypes/clientApplications.raml
+
+  - contractCollection:
+      usage: Use this resourceType to represent a contract collection
+      description: A collection of contracts
+      get:
+        description: Retrieves a list of applications with contracts with the application
+        queryParameters:
+          includeContractsForApiVersion:
+            type: integer
+            description: This field is used to filter by API version
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/contracts.json
+                example: !include examples/contracts.json
+      post:
+        description: Creates new contract between an API version and the application.
+        body:
+          application/json:
+            schema: !include schemas/post-contract.json
+            example: !include examples/post-contract.json
+        responses:
+          201:
+            body:
+              application/json:
+                schema: !include schemas/contract.json
+                example: !include examples/post-contract-response.json
+
+  - tiers: !include resourceTypes/tiers.raml
+
+  - categories:
+      usage: Use this resourceType to represent categories
+      description: Categories
+      get:
+        description: Get categories configurations available for the organization
+        is: [ pagination ]
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/category-configurations.json
+
+      post:
+        description: Add a category configuration to the organization
+        responses:
+          201:
+            body:
+              application/json:
+                schema: !include schemas/category-configuration.json
+                example: !include examples/category-configuration.json
+
+  - category:
+      usage: Use this resourceType to represent an organization category
+      description: Category
+      patch:
+        description: Update a category configuration
+        is: [updateableByForce]
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/category-configuration.json
+                example: !include examples/category-configuration.json
+      delete:
+        description: Delete a category configuration
+        is: [deleteableByForce]
+        responses:
+          204:
+            body:
+              application/json:
+
+  - fields:
+      usage: Use this resourceType to represent Fields
+      description: Fields
+      get:
+        description: Get fields configurations available for the organization
+        is: [ pagination ]
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/field-configurations.json
+
+      post:
+        description: Add a field configuration to the organization
+        responses:
+          201:
+            body:
+              application/json:
+                schema: !include schemas/field-configuration.json
+                example: !include examples/field-configuration.json
+
+  - field:
+      usage: Use this resourceType to represent an organization category
+      description: Field
+      patch:
+        description: Update a field configuration
+        is: [updateableByForce]
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/field-configuration.json
+                example: !include examples/field-configuration.json
+
+      delete:
+        description: Delete a field configuration
+        is: [deleteableByForce]
+        responses:
+          204:
+            body:
+              application/json:
+
+  - queries: !include resourceTypes/queries.raml
+
+  - query: !include resourceTypes/query.raml
+
+
+/ping:
+  displayName: Ping
+  description: Check API status
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/ping-response.json
+
+/health:
+  displayName: Health
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/health-response.json
+
+/profile:
+  displayName: Profile
+  description: User profile
+  get:
+    description: Get user profile
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/profile.json
+
+/dump:
+  get:
+
+/files:
+  displayName: Files
+  description: Files
+  post:
+    description: Uploads a file
+    body:
+      multipart/form-data:
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include examples/file.json
+
+  /classifiers/{classifier}/entries/main:
+    displayName: Main Files
+    description: Main Files
+    post:
+      description: Get main files
+      headers:
+        Content-Type:
+          type: string
+          required: true
+          description: It may be 'multipart/form-data', 'application/octet-stream', etc.
+      body:
+        "*/*":
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/mainFilesResponse.json
+
+/users:
+  /me/queries:
+    displayName: Queries
+    type: queries
+
+    /{queryId}:
+      displayName: Query
+      type: query
+
+/organizations/{organizationId}:
+  displayName: Organizations
+  description: Organizations by id
+  uriParameters:
+    organizationId:
+      description: Id of an organization
+      type: string
+      maxLength: 36
+      pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
+      example: "e9326910-756d-abe0-e69e-a71d05412a6d"
+
+  delete:
+    description: Delete organization
+    responses:
+      204:
+        description: Organization deleted
+      409:
+        description: Organization has assets
+
+  /limits:
+    displayName: Limits
+    description: Organization limits
+    get:
+      description: Get organization assets limits
+      responses:
+        200:
+          body:
+            application/json:
+
+  /users:
+    displayName: Users
+    type: users
+    description: Users of an organization
+
+  /categories:
+    displayName: Categories
+    type: categories
+
+    /{tagKey}:
+      displayName: Category
+      type: category
+
+  /fields:
+    displayName: Fields
+    type: fields
+
+    /{tagKey}:
+      displayName: Field
+      type: field
+
+  /queries:
+    displayName: Queries
+    type: queries
+
+    /{queryId}:
+      displayName: Query
+      type: query
+
+  /migrations/crowd:
+    get:
+      description: Returns true or false - crowd migration status for the specified organization
+      responses:
+        200:
+          body:
+            application/json:
+
+  /migrations/crowd/events:
+      get:
+        description: Returns list of scheduled crowd migrations for the specified organization
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/crowd-migration-events.json
+
+  /assets/{groupId}/{assetId}:
+    description: Assets by group and asset id
+    displayName: Group Asset
+    delete:
+      is: [ deleteable ]
+      description: Delete asset
+      responses:
+        204:
+          description: Asset deleted
+        409:
+          description: There were conflicts while deleting
+
+    /public:
+      description: Public assets
+      displayName: Public
+      get:
+        description: Return the public asset versions
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/public-versions.json
+      put:
+        description: Set the public asset versions
+        body:
+          application/json:
+            schema: !include schemas/public-versions.json
+            example: !include examples/public-versions.json
+
+    /users:
+      description: Users
+      displayName: Users
+      type: assetUsers
+
+    /productApiVersion/{productApiVersion}:
+      description: Assets by product API version
+      displayName: API Version
+      uriParameters:
+        productApiVersion:
+          description: The id of the productApiVersion
+          type: string
+          example: "v1"
+
+      /public:
+        description: Public assets
+        displayName: Public
+        put:
+          description: Makes this GAP public
+          responses:
+            204:
+              description: GAP was made public
+        delete:
+          description: Makes this GAP private
+          responses:
+            204:
+              description: GAP was made private
+
+      /instances:
+        displayName: Instances
+        description: A collection of available environments for a product API version
+
+        /{apiId}/tiers:
+          displayName: Tiers
+          description: A collection of the available SLA Tiers for a given environmentId/apiId
+          type: tiers
+          uriParameters:
+            apiId:
+              description: The id of the API
+              type: integer
+
+        /external:
+          description: External instances
+          displayName: External
+          post:
+            description: Creates a new external API instance
+            body:
+              application/json:
+                schema: !include schemas/post-API-instance-body.json
+                example: !include examples/post-API-instance-body.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    schema: !include schemas/API-instance.json
+                    example: !include examples/API-instance.json
+          /{id}:
+            description: A single instance
+            displayName: Id
+            uriParameters:
+              id:
+                description: Id of the external instance
+                type: string
+                pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                example: 7a7190da-29f3-451a-b2b2-ebd6f7e1f8ea
+            patch:
+              description: Updates an existing external API instance
+              body:
+                application/json:
+                  schema: !include schemas/patch-API-instance-body.json
+                  example: !include examples/patch-API-instance-body.json
+              responses:
+                404:
+                  description: External instance not found
+                204:
+                  description: External instance updated
+            delete:
+              description: Deletes an existing external API instance
+              responses:
+                404:
+                  description: External instance not found
+                204:
+                  description: External instance deleted
+        /managed:
+          /{id}:
+            description: A single managed instance
+            displayName: Managed
+            uriParameters:
+              id:
+                description: Id of the managed instance
+                type: string
+                example: '9897'
+            patch:
+              description: Updates an existing managed API instance
+              body:
+                application/json:
+                  schema: !include schemas/patch-API-instance-body.json
+                  example: !include examples/patch-API-instance-body.json
+              responses:
+                204:
+                  description: Managed instance updated
+                404:
+                  description: External instance not found
+
+    /reviews/search:
+      description: Reviews search
+      displayName: Reviews Search
+      post:
+        queryParameters:
+          includeComments:
+            description: Include comments for reviews
+            type: boolean
+        description: Search for asset versions reviews
+        body:
+          application/json:
+            schema: !include schemas/post-search-versions-reviews-body.json
+            example: !include examples/post-search-versions-reviews-result-body.json
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/reviews.json
+    /{version}:
+      description: Asset version
+      displayName: Version
+      patch:
+        description: Publish draft version
+        responses:
+          204:
+            description: Version updated
+          404:
+            description: Version does not exist
+          409:
+            description: There were conflicts while publishing
+      delete:
+        is: [ deleteable ]
+        description: Delete asset version
+        responses:
+          204:
+            description: Asset version deleted
+          409:
+            description: There were conflicts while deleting
+      /metadata:
+        description: Asset metadata
+        displayName: Metadata
+        patch:
+          description: Update metadata
+          responses:
+            204:
+              description: Metadata updated
+          body:
+            application/json:
+              schema:  !include schemas/metadata.json
+              example: !include examples/patch-asset-metadata.json
+      /tags:
+        description: Asset tags
+        displayName: Tags
+        put:
+          description: Update tags
+          responses:
+            204:
+              description: Tags updated
+          body:
+            application/json:
+              schema:  !include schemas/tags.json
+              example: !include examples/tags.json
+        /fields:
+          description: Fields
+          displayName: Fields
+          /{tagKey}:
+            description: Field Key
+            displayName: Field Key
+            put:
+              description: Update or create a custom field
+              responses:
+                200:
+            delete:
+              description: Delete a custom field
+              responses:
+                204:
+        /categories:
+          description: Categories
+          displayName: Categories
+          /{tagKey}:
+            description: Categoy Key
+            displayName: Categoy Key
+            put:
+              description: Update or create a category
+              responses:
+                200:
+            delete:
+              description: Delete a category
+              responses:
+                204:
+      /api:
+        displayName: API
+        /model:
+          displayName: Model
+          get:
+            description: Return the JSON-LD model for this API
+            responses:
+              200:
+                description: Return the JSON-LD model for this API
+                body:
+                  application/json:
+                    example: !include examples/webapi-graph.json
+        /root:
+          displayName: Root
+          get:
+            description: Redirects to path of root file for this API
+            responses:
+              301:
+                description: Redirection to root file if available
+        /{+filePath}:
+          description: A single path
+          displayName: File path
+          uriParameters:
+            +filePath:
+              description: The path of the API file
+              type: string
+              example: exchange_modules/group.id/asset.id/1.0.0/api.raml
+          get:
+            description: Returns the file contents of the API file
+            responses:
+              200:
+                description: Retrieved file contents
+      /portal:
+        description: Asset portal
+        displayName: Portal
+        type: portal
+        patch:
+          description: Publish draft version
+          responses:
+            204:
+              description: Portal updated
+            404:
+              description: Portal does not exist
+            409:
+              description: There were conflicts while publishing
+
+        /pages:
+          displayName: Pages
+          type: pages
+          /{+pagePath}:
+              displayName: Page
+              type: page
+
+        /draft:
+          description: Asset portal draft
+          displayName: Portal Draft
+          type: portal
+
+          delete:
+            description: Discard draft
+            responses:
+              204:
+                description: Draft deleted
+
+          /pages:
+            displayName: Pages
+            type: pages
+            post:
+              is: [pagePoster]
+              responses:
+                201:
+                  description: Page created.
+                409:
+                  description: Page already exists
+
+            /{+pagePath}:
+              description: A single page path
+              displayName: Page path
+              get:
+                description: Get pages for a specific version of an asset
+              type: {editablePage: {type: "version of an asset"}}
+
+          /pagesOrder:
+            description: Asset portal pages order
+            displayName: Pages Order
+            type: pagesOrder
+
+      /pages:
+        displayName: Pages
+        type: pages
+        /{+pagePath}:
+            displayName: Page
+            type: page
+
+      /draft:
+        description: Asset portal draft
+        displayName: Draft
+        /portal:
+          displayName: Portal
+          type: portal
+
+        /pages:
+          displayName: Pages
+          type: pages
+          post:
+            is: [pagePoster]
+            responses:
+              201:
+                description: Page created.
+              409:
+                description: Page already exists
+
+          /{+pagePath}:
+            description: A single page path
+            displayName: Page path
+            get:
+              description: Get pages for an specific version of an asset
+            type: {editablePage: {type: "version of an asset"}}
+
+      /reviews:
+        displayName: Reviews
+        type: reviews
+
+        /{reviewId}:
+          displayName: Review
+          type: review
+          uriParameters:
+            reviewId:
+              description: Id of the review. It is a UUID.
+              type: string
+              pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              example: 7a7190da-29f3-451a-b2b2-ebd6f7e1f8ea
+
+          /comments:
+            displayName: Comments
+            type: comments
+
+            /{commentId}:
+              displayName: Comment
+              type: comment
+              uriParameters:
+                commentId:
+                  description: Id of the review comment. It is a UUID.
+                  type: string
+                  example: 7a7190da-29f3-451a-b2b2-ebd6f7e1f8ea
+                  pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+
+      /rating:
+        description: Asset rating
+        displayName: Rating
+        type: rating
+      /status:
+        description: Asset status
+        displayName: Status
+        put:
+          description: Upserts asset's status to 'published' or 'deprecated'.
+          body:
+            application/json:
+              schema: !include schemas/assetStatus.json
+              example: !include examples/assetStatus.json
+          responses:
+            204:
+              description: Asset status successfully updated
+      /owner:
+        description: Asset ownership
+        displayName: Owner
+        put:
+          description: Update Asset ownership
+          body:
+            application/json:
+              schema: !include schemas/assetOwner.json
+              example: !include examples/assetOwner.json
+          responses:
+            204:
+              description: Asset ownership successfully updated
+  /groups:
+    description: Organization groups
+    displayName: Groups
+    get:
+      description: Get eligible groupId's for given organizationId
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                [{
+                  groupId: 'obtained-group-id'
+                }]
+
+  /projects/{projectId}/refs/{referenceId}/archive:
+    description: Project archive
+    displayName: Project Archive
+    get:
+      description: Get complete project archive
+      responses:
+        200:
+          description: Retrieve complete project
+        404:
+          description: Project not found
+        409:
+          description: There were conflicts with the project
+
+  /applications:
+    displayName: Applications
+    description: A collection of applications that consume APIs via contracts
+    type: clientApplications
+
+    /{applicationId}:
+      description: A single application
+      displayName: Application
+      get:
+        description: Get a client application
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/get-client-application-response.json
+
+      patch:
+        description: Update a client application
+        body:
+          application/json:
+            example: !include examples/patch-client-application-body.json
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/patch-client-application-response.json
+      delete:
+        description: Delete a client application
+        responses:
+          204:
+            description: Client application deleted.
+
+      /secret/reset:
+        displayName: Reset secret
+        description: Resets client secret for application.
+        post:
+          description: Empty body
+          responses:
+            201:
+              description: Secret reseted
+
+      /contracts:
+        displayName: Contracts
+        description: Contracts associated with the application
+        type: contractCollection
+
+        /{contractId}:
+          displayName: Contract
+          description: A particular contract associated with the application.
+          patch:
+            description: Patches contract conditions.
+            body:
+              application/json:
+                example: |
+                  {
+                    requestedTierId: 17116
+                  }
+            responses:
+              200:
+                description: Contract updated
+
+/assets:
+  displayName: Assets
+  type: assets
+
+  post:
+    description: Upload an asset
+    headers:
+      Content-Type:
+        description: Use "multipart/form-data"
+        type: string
+        example: multipart/form-data
+      x-file-validation:
+        type: string
+      x-allowed-api-spec-formats:
+        description: Specify API SPECS formats that assets are allowed to use
+        type: string
+        required: false
+        example: ["application/raml","application/vnd.oai.openapi;version=2.0"]
+      x-strict-package:
+        description: Indicates if file is immutable.
+        type: boolean
+        default: false        
+    body:
+      multipart/form-data:
+        formParameters:
+          organizationId:
+            description: The id of the organization the asset will belong to
+            type: string
+            required: true
+            example: 777cd8d1-2cda-4da0-a13c-fb5b38e6c3c2
+          groupId:
+            description: The id of the business group the asset will belong to
+            type: string
+            required: true
+            example: 777cd8d1-2cda-4da0-a13c-fb5b38e6c3c2
+          assetId:
+            description: The id of the asset
+            type: string
+            required: true
+            example: mule-policies-api
+          version:
+            description: The version of the asset being created (must follow Semver syntax)
+            type: string
+            required: true
+            example: 1.4.0
+          name:
+            description: The visible name of the asset
+            type: string
+            required: true
+            example: Mule Policies API
+          classifier:
+            description: The type of the asset to be created
+            type: string
+            enum:
+              - raml-fragment
+              - raml
+              - oas
+              - wsdl
+              - http
+              - custom
+            required: true
+          assetLink:
+            description: The link of the asset. Required for "wsdl" or "http" assets
+            required: false
+            example: https://some.implementation.com
+          apiVersion:
+            description: The product version of API assets. Required for "raml", "oas", "wsdl" and "http" assets
+            required: false
+            example: v1
+          main:
+            description: The main file of the asset. Required for "raml", "raml-fragment", "oas" and "wsdl".
+            required: false
+            example: index.yaml
+          dependencies:
+            description: |
+              Required for "api-group" classifier only, They are APIs included in it, as a JSON array of objects.
+              Because the field must be of String type, the stringified value of the JSON array must be passed as parameter.
+            type: string
+            required: false
+            example: !include examples/asset-dependencies.json
+          asset:
+            description: The asset file. Required for "raml", "raml-fragment", "oas" and "wsdl". Maximum size of 5 MB. This must be the last field of the multipart.
+            type: file
+            required: false
+          originalFormatVersion:
+            description: The version of the format of the api specification. ie ‘2.0’  for OAS 2.0
+            type: string
+            required: false
+          metadata:
+            description: A design center object describing asset projectId, branchId and commitId. Because the field must be of String type, the stringified value of the JSON object must be passed as parameter.
+            type: string
+            required: false
+          tags:
+            description: An array of strings to be saved as asset's tags. Because the field must be of String type, the stringified value of the JSON array must be passed as parameter.
+            type: string
+            required: false
+    responses:
+      201:
+        description: Asset created
+
+  /{groupId}/{assetId}:
+    description: Assets by group and asset id
+    displayName: Group Asset
+    uriParameters:
+      groupId:
+        description: Id of group
+        type: string
+      assetId:
+        description: Id of asset
+        type: string
+    get:
+      is: [assetWithVersions]
+      description: Get a particular asset by its id
+      responses:
+        200:
+          body:
+            application/json:
+              schema: !include schemas/asset.json
+              example: !include examples/asset.json
+
+    /users:
+      description: Asset users
+      displayName: Users
+      type: assetUsers
+
+    /reviews/search:
+      description: Reviews search
+      displayName: Reviews Search
+      post:
+        description: Search for asset versions reviews
+        queryParameters:
+          includeComments:
+            description: Include comments for reviews
+            type: boolean
+        body:
+          application/json:
+            schema: !include schemas/post-search-versions-reviews-body.json
+            example: !include examples/post-search-versions-reviews-result-body.json
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/reviews.json
+
+    /versionGroups/{versionGroup}:
+      is: [assetWithVersions]
+      description: Assets by version group
+      displayName: Version Group
+      uriParameters:
+        versionGroup:
+          description: The asset version group
+          type: string
+          minLength: 1
+      get:
+        description: Get the lastest version of the version group
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/asset.json
+
+    /productAPIVersion/{productAPIVersion}:
+      is: [assetWithVersions]
+      description: Assets by product API version
+      displayName: API Version
+      uriParameters:
+        productAPIVersion:
+          description: The id of the productAPIVersion
+          type: string
+      get:
+        description: Get the lastest version of the productAPIVersion
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/asset.json
+
+  /{groupId}/{assetId}/{version}:
+    is: [assetWithVersions]
+    description: Asset version
+    displayName: Version
+    uriParameters:
+      groupId:
+        description: Id of group
+        type: string
+      assetId:
+        description: Id of asset
+        type: string
+      version:
+        description: The id of the version
+        type: string
+    get:
+      description: Get a particular version by its Id
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/asset.json
+    head:
+      description: Returns an empty body if the current user has access to the given asset
+      responses:
+        204:
+    patch:
+      description: Publish draft version. Empty body
+      responses:
+        204:
+          description: Version updated
+        404:
+          description: Version does not exist
+        409:
+          description: There were conflicts while publishing
+
+    /api:
+      displayName: API
+      /root:
+        get:
+          description: Redirects to path of root file for this API
+          responses:
+            301:
+              description: Redirection to root file if available.
+      /{+filePath}:
+        uriParameters:
+          +filePath:
+            description: The path of the API file
+            type: string
+            example: exchange_modules/group.id/asset.id/1.0.0/api.raml
+        get:
+          description: Returns the file contents of the API file
+          responses:
+            200:
+              description: Retrieved file contents
+      /json:
+        displayName: JSON
+        get:
+          description: Returns JSON for this RAML
+          responses:
+            200:
+              description: body of the json consumed by API Console
+    /domain:
+      description: Allowed domains for the asset version
+      displayName: Domain
+      get:
+        description: Get allowed domain for the asset version
+        responses:
+          200:
+            body:
+              text/plain:
+    /pages:
+      displayName: Pages
+      type: pages
+
+      /{+pagePath}:
+          displayName: Page
+          type: page
+
+    /draft:
+      description: Draft portal
+      displayName: Draft
+      /pages:
+        displayName: Pages
+        type: pages
+        post:
+          description: |
+            Creates an empty page for a draft version. Remember that:
+              - A page cannot be moved/created to/in a path that already contains another page with the same name.
+          responses:
+            201:
+              description: Page created.
+            409:
+              description: Page already exists
+          headers:
+            x-move-source:
+              type: string
+              description: |
+                  This header is used when you want to rename or move an existing page.
+                  `x-move-source` specifies the path of the page or folder that wants to be moved, the source.
+                  The request body property `path` will be the destination.
+              example: "/examples/"
+          body:
+            schema: !include schemas/pageCreate.json
+            example: !include examples/pageCreate.json
+
+        /{+pagePath}:
+          displayName: Page
+          type: page
+          put:
+            description: Update a page for a version of an asset portal.
+            responses:
+              204:
+                description: Page updated.
+            body:
+              text/markdown:
+                example: !include examples/page.md
+          delete:
+            description: Delete a page of a version of an asset portal.
+            responses:
+              204:
+                description: Page deleted.
+
+    /reviews:
+      displayName: Reviews
+      type: reviews
+
+      /{reviewId}:
+        displayName: Review
+        type: review
+        uriParameters:
+          reviewId:
+            description: Id of the review. It is a UUID.
+            type: string
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            example: 7a7190da-29f3-451a-b2b2-ebd6f7e1f8ea
+
+        /comments:
+          displayName: Comments
+          type: comments
+
+          /{commentId}:
+            displayName: Comment
+            type: comment
+            uriParameters:
+              commentId:
+                description: Id of the review comment. It is a UUID.
+                type: string
+                example: 7a7190da-29f3-451a-b2b2-ebd6f7e1f8ea
+                pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            patch:
+              description: Edit a comment
+              body:
+                application/json:
+                  schema:  !include schemas/patch-review-comment-body.json
+                  example: !include examples/patch-review-comment-body.json
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include examples/review-comment.json
+            delete:
+              description: Deletes an specific asset's review comment.
+              responses:
+                204:
+                  description: comment deleted
+
+    /tags:
+      description: Asset tags
+      displayName: Tags
+      put:
+        description: Update tags
+        responses:
+          204:
+            description: Tags updated.
+        body:
+          application/json:
+            schema:  !include schemas/tags.json
+            example: !include examples/tags.json
+
+/organizations/{organizationDomain}:
+  description: Organizations by domain
+  displayName: Organizations by domain
+  uriParameters:
+    organizationDomain:
+      description: Domain of a master organization
+      type: string
+      maxLength: 255
+      example: some-domain
+
+  /assets:
+    displayName: Assets
+    type: assets
+
+    /{groupId}/{assetId}:
+      description: Assets by group and asset id
+      displayName: Group Asset
+      uriParameters:
+        groupId:
+          description: Id of group
+          type: string
+        assetId:
+          description: Id of asset
+          type: string
+      get:
+        description: Get a particular asset by its id
+        responses:
+          200:
+            body:
+              application/json:
+                schema: !include schemas/asset.json
+                example: !include examples/asset.json
+
+      /{version}:
+        description: Asset version
+        displayName: Version
+        uriParameters:
+          version:
+            description: Version of Asset
+            type: string
+        get:
+          description: Get a particular asset by its id
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: !include schemas/asset.json
+                  example: !include examples/asset.json
+
+      /versionGroups/{versionGroup}:
+        description: Assets by version group
+        displayName: API Version
+        uriParameters:
+          versionGroup:
+            description: Version group of asset
+            type: string
+            minLength: 1
+        get:
+          description: Get a particular asset by its id
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: !include schemas/asset.json
+                  example: !include examples/asset.json
+
+      /productAPIVersion/{productAPIVersion}:
+        description: Assets by product API version
+        displayName: API Version
+        uriParameters:
+          productAPIVersion:
+            description: API version of Asset
+            type: string
+        get:
+          description: Get a particular asset by its id
+          responses:
+            200:
+              body:
+                application/json:
+                  schema: !include schemas/asset.json
+                  example: !include examples/asset.json
+
+  /portal:
+    description: Asset portal
+    displayName: Portal
+    get:
+      description: Get a custom portal
+      responses:
+        200:
+          body:
+            example: !include examples/portalCustomization.json
+    patch:
+      description: Publish draft portal customization. Empty body
+      responses:
+        204:
+          description: Portal updated
+        404:
+          description: Custom portal does not exist
+        409:
+          description: There were conflicts while publishing
+
+    /domain:
+      description: Portal domain
+      displayName: Domain
+      get:
+        description: Get a domain
+        responses:
+          200:
+            body:
+              text/plain:
+      put:
+        description: Update a domain
+        body:
+          text/plain:
+        responses:
+          204:
+      delete:
+        description: Remove a domain
+        responses:
+          204:
+
+    /pages/{+pageName}:
+      displayName: Page
+      type: page
+
+    /draft:
+      description: Draft portal
+      displayName: Draft
+      delete:
+        description: Deletes the draft portal
+        responses:
+          204:
+            description: Draft portal deleted
+          404:
+            description: Draft does not exist
+      get:
+        description: Get a custom portal
+        responses:
+          200:
+            body:
+              example: !include examples/portalCustomization.json
+          404:
+            description: Custom Portal does not exist
+      put:
+        description: Update custom portal
+        responses:
+          204:
+            description: Custom portal updated
+          422:
+            description: Customization Data is invalid
+        body:
+          application/json:
+            example: !include examples/portalCustomizationUpdate.json
+      /pages:
+        displayName: Pages
+        post:
+          is: [pagePoster]
+          responses:
+            201:
+              description: Page created.
+            409:
+              description: Page already exists
+            422:
+              description: Maximum page quantity exceeded
+        /{+pageName}:
+          description: A single portal page
+          displayName: Page
+          type: {editablePage: {type: "custom draft"}}
+      /pagesOrder:
+        description: Public portal pages order
+        displayName: Pages Order
+        type: pagesOrder

@@ -1,0 +1,7 @@
+{
+  "isSuccessful": false,
+  "errorMessages": [
+    "Connected Applications are not enabled for this organization",
+    "Grant is not allowed for organization - cannot fulfill grant"
+  ]
+}

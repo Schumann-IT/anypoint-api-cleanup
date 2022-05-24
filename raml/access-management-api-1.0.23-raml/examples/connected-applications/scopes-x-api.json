@@ -1,0 +1,19 @@
+[
+  {
+    "scope": "openid",
+    "displayName": "Profile Data",
+    "description": "Read-only access to your Profile Data (username, email, unique ID)"
+  },
+
+  {
+    "scope": "offline_access",
+    "displayName": "Background Access",
+    "description": "Access to your data when you are not logged in"
+  },
+
+  {
+    "scope": "api:admin",
+    "displayName": "API Admin",
+    "description": "Admin access to your applications in the API Portal"
+  }
+]

@@ -1,0 +1,54 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for hubSpokeRelations
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+
+  Relations:
+    additionalProperties: false
+    properties:
+      id: integer
+      invited_at: datetime
+      invited_by_user:
+        additionalProperties: false
+        properties:
+          id: primitives.uuid
+          username:
+            minLength: 1
+            maxLength: 255
+          first_name:
+            minLength: 1
+            maxLength: 255
+          last_name:
+            minLength: 1
+            maxLength: 255
+      hub_org:
+        additionalProperties: false
+        properties:
+          id: string
+          name:
+            minLength: 1
+            maxLength: 255
+      spoke_org:
+        additionalProperties: false
+        properties:
+          id: string
+          name:
+            minLength: 1
+            maxLength: 255
+      status:
+        enum: [ PENDING, ACCEPTED, REJECTED, UNLINKED ]
+      completed_at: datetime | nil
+      completed_by_user: primitives.uuid | nil
+
+  RelationsList:
+    type: array
+    items:
+      Relations
+
+  RelationsNew:
+    type: array
+    items: primitives.uuid

@@ -1,0 +1,28 @@
+{
+  "type": "array",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "items": {
+    "type": "object",
+    "properties": {
+      "scope": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 256
+      },
+      "displayName": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 256
+      },
+      "description": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 256
+      }
+    },
+    "required": ["scope", "displayName", "description"],
+    "additionalProperties": false
+  },
+  "minItems": 1,
+  "uniqueItems": true
+}

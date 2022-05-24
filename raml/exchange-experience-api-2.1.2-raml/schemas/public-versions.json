@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "productAPIVersion": {
+        "type": "string"
+      },
+      "versionGroup": {
+        "type": "string"
+      }
+    },
+    "anyOf": [
+      { "required": ["productAPIVersion"] },
+      { "required": ["versionGroup"] }
+    ]
+  }
+}

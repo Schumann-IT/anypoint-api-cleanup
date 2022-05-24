@@ -1,0 +1,34 @@
+{
+    "actor": {
+        "userId":"4b353f44-6486-42ae-ae77-18b4032f9643",
+        "clientId":"f0c9b011-980e-4928-9430-e60e3a97c043",
+        "clientType":"platform",
+        "context":"user"
+    },
+    "resourceDetails": [
+        {
+            "namespace": "somenamespace1",
+            "action": "GET",
+            "resources": [
+                "/api/users",
+                "/api/clients"
+            ]
+        },
+        {
+            "namespace": "somenamespace2",
+            "action": "GET",
+            "resources": [
+                "/api/users",
+                "/api/clients"
+            ]
+        },
+        {
+            "namespace": "somenamespace3",
+            "action": "GET",
+            "resources": [
+                "/api/users",
+                "/api/clients"
+            ]
+        }
+    ]
+}

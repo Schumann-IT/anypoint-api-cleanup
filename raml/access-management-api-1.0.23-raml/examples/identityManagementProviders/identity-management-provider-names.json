@@ -1,0 +1,10 @@
+[
+  {
+    "provider_id": "2e71d283-6248-4c81-98eb-e254a89b7e0a",
+    "name": "Primary Identity Management Config",
+    "idprovider_id": "https://example.com:example.anypoint.mulesoft.com"
+  }, {
+    "provider_id": "00f5d684-c4ed-4c50-8a8e-cdcd0df1dd11",
+    "name": "Secondary Identity Management Config"
+  }
+]

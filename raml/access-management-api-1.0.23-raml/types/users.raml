@@ -1,0 +1,25 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for identities
+
+types:
+  User:
+    type: object
+
+  UserAbbrevated:
+    type: object
+    properties:
+      username:
+        type: string
+      id:
+        type: string
+      organizationId:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      enabled:
+        type: boolean

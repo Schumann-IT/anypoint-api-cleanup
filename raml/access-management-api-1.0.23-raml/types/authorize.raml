@@ -1,0 +1,61 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for authorize APIs
+
+uses:
+  roles: ./roles.raml
+
+types:
+  AuthorizeContext:
+    additionalProperties: true
+    type: object
+    properties:
+      namespace:
+        description: the namespace for the resources defined in the resource template
+        type: string
+      actions?:
+        description: which actions to return results for. If not provided, results for all actions are returned.
+        type: array
+        minItems: 1
+        maxItems: 10
+        items: string
+      resourceTemplates:
+        description: a resource string template. Named context parameters must be wrapped in double-curly braces. e.g. /organizations/{{org}}/environments/{{envId}}/applications
+        type: array
+        minItems: 1
+        maxItems: 5
+        items: string
+      simplify?:
+        description: whether to reduce the result set by removing individual contexts that are permitted from contexts that match all values.
+        type: boolean
+        default: false
+      limit?:
+        description: return a maximum of this many results
+        type: integer
+      offset?:
+        description: return results starting at this position
+        type: integer
+        default: 0
+
+  AuthorizeContextResult:
+    additionalProperties: false
+    type: object
+    properties:
+      namespace:
+        description: the namespace for the resources sent in the request
+        type: string
+      resource:
+        description: the resource string for this result with context parameters placed in the requested resource template
+        type: string
+      resourceTemplate:
+        description: the original provided resource template that matches this result
+        type: string
+      resourceTemplateParams:
+        description: context parameter conditions that matched the template for the set of actions
+        type: roles.ContextParams
+      actions:
+        description: the subset of requested actions that the principal is allowed to do on this resource.
+        type: array
+        minItems: 1
+        maxItems: 10
+        items: string

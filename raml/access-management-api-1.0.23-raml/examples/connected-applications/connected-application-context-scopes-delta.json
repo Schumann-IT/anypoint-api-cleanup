@@ -1,0 +1,11 @@
+{
+  "scopes": [
+    {
+      "scope": "api:admin",
+      "context_params": {
+        "org": "8b0b657c-91ca-420d-870a-08699094f5e4",
+        "envId": "7cc0463b-f7be-418d-8a64-84fbad13ab00"
+      }
+    }
+  ]
+}

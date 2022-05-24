@@ -1,0 +1,26 @@
+{
+  "name": "Primary Identity Management Config",
+  "type": {
+    "description": "SAML 2.0",
+    "name": "saml"
+  },
+  "service_provider": {
+    "urls": {
+      "sign_on": "https://example.com/idp/login",
+      "sign_out": "https://example.com/idp/logout"
+    }
+  },
+  "saml": {
+    "audience": "example.anypoint.mulesoft.com",
+    "issuer": "https://example.com",
+    "public_key": [
+      "-----BEGIN CERTIFICATE-----\nMIID4DCCA8igAwIBAgIOAXD1Vx9oAAAAAE8I+UMwDQYJKoZIhvcNAQELBQAwgaEx\nORA3BgNVBAMMMFNlbGZTaWduZWRDZXJTZWxmU2lnbmVkQ2VydF8xOU1hcjIwMjB0\nXzE5TWFyMjAyMDEYMBYGA1UECwwPMDBEZjQwMDAwNDNBVjZmMRcwFQYDVQQKDA5T\nYWxlc2ZvcmNlLmNvbTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbZELMAkGA1UECAwC\nQ0ExDDAKBgNVBAYTA1VTQTAeFw0yMDAzMjAwMDI4MTJaFw0yMTAzMjAwMDAwMDBa\nMIGhMTkwNwYDVQQDDDBTZWxmU2lnbmVkQ2VyU2VsZlNpZ25lZENlcnRfMTlNYXIy\nMDIwdF8xOU1hcjIwMjAxGDAWBgNVBAsMDzAwRGY0MDAwMDAzQVY2ZjEXMBUGA1UE\nCgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNV\nBAgMAkNBMQwwCgYDVQQGEwNVU0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK\nAoIBAQCe/YnyilbiG6ptsIQu4V+Oe+hAMNYeBHh9JvnihAYe4z679KVJLpY+rE3N\nXK+JbZRDCUVewlSj+QhfvykzvJyXUrPC2NyrshW9DFUB36JbOBIYQL00s4TNEBTt\nz/LgDuVn0B7p5uk1HfeL6Ycul3XmAss913XRRMBmdTwi6vK+sVr4rTfzoFxyg7vS\nAAxDfrZh0mgieuVUENGXmV1OEKuX4G4WIeTwsOz0woHbNXM1M7Q1F9zLJK93QrpS\nOg0n3oAFyk9KAQ/Gv3AW12N5VlUAc+/NttRkO9k+ZhDllZSDWQSYokRbrxXurske\n22Tp+rxr80lGFqDyb6bTem1c8s8jAgMBAAGjggESMIIBDjAdBgNVHQ4EFgQUM50l\nbdnhkFhJAcf/28trPacGk18wDwYDVR0TAQH/BAUwAwEB/zCB2wYDVR0jBIHTMIHQ\ngBQznSVt2eGQWEkBx//by2s9pwaTX6GBp6SBpDCBoTE5MDcGA1UEAwwwU2VsZlNp\nZ25lZENlclNlbGZTaWduZWRDZXJ0XzE5TWFyMjAyMHRfMTlNYXIyMDIwMRgwFgYD\nVQQLDA8wMERmNDAwMDAwM0FWNmYxFzAVBgNVBAoMDlNhbGVzZm9yY2UuY29tMRYw\nFAYDVQQHDA1TYW4gRnJhbmNpc2NvMQswCQYDVQQIDAJDQTEMMAoGA1UEBhMDVVNB\ngg4BcPVXH2gAAAAATwj5QzANBgkqhkiG9w0BAQsFAAOCAQEANEupbkT3hHAP0iXR\n7TUNxYBi5y/TeMHE7SfRboMZpjLKMRiRCpCjSl2KlZp+wmGpGBfRiL1fPmiDOiPp\n3XyWcJ5+xPL5btQhcnD+YsMcFLsKIIbCtqS0NXUWa1K4oRq2z4/EBrXZLtniQ+8M\noQnXYvH5zKkpjH1JM8BDfceymgrYsdXmu3rflXuvxBLsDMDdk0zTojL1rIqzxTPH\nS2iabxwLeVWQEGPtXmRtS+kP6CY1pNoYbAFrJzZf4wakx95vwTqSXfcIoFdHUG5B\nX6db+brGnxVgv4mL8ZbxljYhcNDMyNm6kGoPqEyhGHhDTnQyn1RKcStBxkDXPIL3\nb6ojYg==\n-----END CERTIFICATE-----"
+    ],
+    "claims_mapping": {
+      "group_attribute": "memberOf"
+    },
+    "sp_initiated_sso_enabled": false,
+    "idp_initiated_sso_enabled": true,
+    "require_encrypted_saml_assertions": false
+  }
+}

@@ -1,0 +1,92 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for identities
+
+uses:
+  primitives: ./primitives.raml
+  roles: ./roles.raml
+  teams: ./teams.raml
+  users: ./users.raml
+  externalOrganizations: ./external-organizations.raml
+
+types:
+  IdentityType:
+    type: string
+    enum: [ team, user, external_organization ]
+
+  Identity:
+    additionalProperties: false
+    properties:
+      id:
+        description: The id of the identity. For users this is the id. For teams, the team_id. For External Organizations, the id.
+        type: primitives.IdString
+      name:
+        description: The name of the identity. For users this is the username. For teams, the name. For External Organizations the organization name.
+        type: string
+        minLength: 1
+        maxLength: 255
+      type:
+        description: The type of the identity.
+        type: IdentityType
+
+  IdentityWithDetails:
+    type: Identity
+    additionalProperties: false
+    properties:
+      details:
+        description: the team, user or external organization that this identity refers to
+        type: users.User | teams.Team | externalOrganizations.ExternalOrganization
+
+  TeamWithMembershipCount:
+    type: teams.Team
+    additionalProperties: false
+    properties:
+      membership_count:
+        description: The count of unqiue user members in the team (including descendant teams).
+        type: integer
+
+  IdentityWithDetailsAndMembershipCount:
+    type: Identity
+    additionalProperties: false
+    properties:
+      details:
+        description: the team or user that this identity refers to
+        type: users.User | TeamWithMembershipCount
+
+  IdentityRoleSearchResult:
+    additionalProperties: false
+    type: IdentityWithDetails
+    properties:
+      assignments:
+        type: array
+        items: roles.RoleAssignmentDetailedWithDate
+
+  IdentitiesBulkRoleUpdateList:
+    type: array
+    maxItems: 10
+    items:
+      additionalProperties: false
+      properties:
+        role_id:
+          description: role_id that should be assigned/unassigned to the identities with this context
+          type: primitives.IdString
+        identity_ids:
+          description: list of identity's ids (a mix of team.team_id and/or user.id values)
+          type: array
+          minItems: 1
+          maxItems: 10
+          items: primitives.IdString
+        context_params:
+          description: the context for the role assignments
+          type: roles.ContextParams
+
+  IdentitiesBulkRoleUpdateOperation:
+    type: object
+    additionalProperties: false
+    properties:
+      assign:
+        description: List of bulk role updates to perform an assignment operation with
+        type: IdentitiesBulkRoleUpdateList
+      unassign:
+        description: List of bulk role updates to perform an unassignment operation with
+        type: IdentitiesBulkRoleUpdateList

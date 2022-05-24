@@ -1,0 +1,16 @@
+[
+  {
+    "domain": "domain-1",
+    "details": {
+      "name": "Mythical Banking",
+      "id": "450e1b65-4cdd-4269-b887-33b1f8b244fc"
+    }
+  },
+  {
+    "domain": "domain-2",
+    "details": {
+      "name": "Anypoint Services",
+      "id": "1f720705-46bf-48b9-9bcf-fdc539740532"
+    }
+  }
+]

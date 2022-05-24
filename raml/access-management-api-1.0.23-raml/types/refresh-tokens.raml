@@ -1,0 +1,28 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for refresh_tokens
+
+types:
+  RefreshTokens:
+    type: array
+    items:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+        user_id:
+          type: string
+        client_id:
+          type: string
+        next_refresh_token:
+          type: string
+        prev_refresh_token:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+        expires_at:
+          type: integer
+        expires_in:
+          type: integer

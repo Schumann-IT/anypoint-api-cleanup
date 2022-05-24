@@ -1,0 +1,11 @@
+#%Asset 1.0
+assetType: WebAPISpec
+tenantId: 1d25b093-aed5-476a-8bb6-f9c8297bd2ca
+name: update ang SE
+assetId: se-18849
+groupId: 1d25b093-aed5-476a-8bb6-f9c8297bd2ca
+description: ""
+organizationId: 1d25b093-aed5-476a-8bb6-f9c8297bd2ca
+majorVersions:
+  - https://catalog.graph.qax.anypoint.mulesoft.com/v1/asset-major-versions/1d25b093-aed5-476a-8bb6-f9c8297bd2ca/se-18849/1
+createdAt: 2021-07-15T12:32:27.919Z

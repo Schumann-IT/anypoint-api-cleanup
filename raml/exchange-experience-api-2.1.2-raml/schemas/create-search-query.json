@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "types": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      }
+    },
+    "search": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 1024
+    },
+    "includeSnapshots": {
+      "type": "boolean",
+      "title": "Include snapshots"
+    },
+    "includeDeprecated": {
+      "type": "boolean",
+      "title": "Include deprecated"
+    },
+    "updatedAt": {
+      "type": "string",
+      "title": "Updated at",
+      "minLength": 0,
+      "maxLength": 1024
+    },
+    "categories": {
+      "type": "array",
+      "title": "Categories",
+      "items": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 256
+      }
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "items": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 256
+      }
+    },
+    "sort": {
+      "type": "string",
+      "title": "Sorting",
+      "minLength": 0,
+      "maxLength": 16
+    },
+    "organizationIds": {
+      "type": "array",
+      "title": "Organizations",
+      "items": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 64
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "anyOf": [
+    { "required": ["types"] },
+    { "required": ["search"] },
+    { "required": ["includeSnapshots"] },
+    { "required": ["includeDeprecated"] },
+    { "required": ["updatedAt"] },
+    { "required": ["categories"] },
+    { "required": ["tags"] },
+    { "required": ["organizationIds"] }
+  ]
+}

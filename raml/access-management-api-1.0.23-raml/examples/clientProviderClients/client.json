@@ -1,0 +1,15 @@
+{
+  "client_id": "8c45c1f1-d35b-42ed-b497-8c4af9e18c4e",
+  "client_name": "SampleClient",
+  "client_secret": "test-client-secret",
+  "grant_types": [
+    "implicit",
+    "authorization_code"
+  ],
+  "redirect_uris": [
+    "https://localhost:3000/callback",
+    "https://example.com/auth-callback"
+  ],
+  "org_id": "693ceb1a-c801-4b31-a491-8f194a624165",
+  "client_management_provider_id": "ff62313fc59845beaba2ffa79da1abc8"
+}

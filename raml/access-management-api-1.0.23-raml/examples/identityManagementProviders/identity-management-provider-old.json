@@ -1,0 +1,24 @@
+{
+  "identity_management": {
+    "type": {
+      "name": "saml",
+      "description": "SAML 2.0"
+    },
+    "service_provider": {
+      "name": "Identity Federation Service Provider",
+      "urls": {
+        "sign_on": "https://pingfederate:9031/idp/startSSO.ping?PartnerSpId=chris.localhost.mulesoft.com",
+        "sign_out": "https://pingfederate:9031/idp/SLO.saml2"
+      }
+    },
+    "saml": {
+      "name": "SAML 2.0",
+      "issuer": "test.9.1.mulesoft.com",
+      "public_key": ["AAAA"],
+      "audience": "chris.localhost.mulesoft.com",
+      "claims_mapping": {
+        "group_attribute": "memberOf"
+      }
+    }
+  }
+}

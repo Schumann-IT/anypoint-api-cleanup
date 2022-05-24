@@ -1,0 +1,108 @@
+{
+  "organizations": [
+    {
+      "id": "2cd73eff-e862-4b4e-b596-84cf8eb6f11d",
+      "name": "The Master Org",
+      "isMaster": true,
+      "environments": [
+        {
+          "id": "9d8b7b39-7744-4ab7-9fb6-a75a343c5ee4",
+          "name": "Prod",
+          "type": "production"
+        },
+        {
+          "id": "2d6660fe-d5fc-4da6-90bd-68fc17b478f7",
+          "name": "Design",
+          "type": "design"
+        }
+      ]
+    },
+    {
+      "id": "0e6700dc-41a1-4234-889e-908d9d6df3e2",
+      "name": "A Sub-Org",
+      "isMaster": false,
+      "environments": [
+        {
+          "id": "f16f1c35-c517-4442-8f73-36d0879e5832",
+          "name": "Americas",
+          "type": "design"
+        },
+        {
+          "id": "f84ab301-17d4-4ed0-9beb-0c977e98045c",
+          "name": "Sub-Org Sandbox",
+          "type": "sandbox"
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "product_id": "api_manager",
+      "label": "API Manager",
+      "permissions": [
+        {
+          "displayName": "API Manager Environment Administrator",
+          "contextKeys": ["org", "envId"],
+          "scope": "manage:apis",
+          "role_id": "f14b0d23-a267-4014-9563-29d46a26295b",
+          "description": "Manage all APIs inside a specific environment",
+          "conditions": []
+        },
+        {
+          "displayName": "Manage Policies",
+          "contextKeys": ["org", "envId"],
+          "scope": "manage:api_policies",
+          "role_id": "92000113-61b8-4d82-a98f-7d36275d6bc6",
+          "description": "Manage all APIs policies inside a specific environment",
+          "conditions": []
+        }
+      ]
+    },
+    {
+      "product_id": "cloudhub",
+      "label": "We Changed Our Name Too Many Times",
+      "permissions": [
+        {
+          "displayName": "Read Applications",
+          "contextKeys": ["org", "envId"],
+          "scope": "read:applications",
+          "role_id": "3c91e5ca-fe58-441f-b6ab-a2be0a684bbf",
+          "description": "Gives read access to applications in a specific environment",
+          "conditions": [
+            "noDesignEnvironments"
+          ]
+        }
+      ]
+    },
+    {
+      "product_id": "visualizer",
+      "label": "Application Visualizer",
+      "permissions": [
+        {
+          "displayName": "Visualizer Editor",
+          "contextKeys": ["org"],
+          "scope": "edit:visualizer",
+          "role_id": "6a78512a-8c75-4744-ad24-87e6e5847e73",
+          "description": "Grants write and read access to Visualizer",
+          "conditions": [
+            "noSubOrganizations"
+          ]
+        }
+      ]
+    },
+    {
+      "product_id": "cs_auth",
+      "label": "Access Management",
+      "permissions": [
+        {
+          "displayName": "openidConnect",
+          "contextKeys": [],
+          "scope": "openid",
+          "role_id": "9f3f516d-4355-491c-bbf1-523b1480dcce",
+          "description": "Read-only access to your username and Anypoint ID",
+          "conditions": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "namespace": "somenamespace1",
+    "action": "GET",
+    "resources": [
+        "/api/users",
+        "/api/clients"
+    ],
+    "authorizedResources": [
+      "/api/users"
+    ]
+  },
+  {
+    "namespace": "somenamespace2",
+    "action": "GET",
+    "resources": [
+        "/api/users",
+        "/api/clients"
+    ],
+    "authorizedResources": [
+      "/api/users",
+      "/api/clients"
+    ]
+  },
+  {
+    "namespace": "somenamespace3",
+    "action": "GET",
+    "resources": [
+        "/api/users",
+        "/api/clients"
+    ],
+    "authorizedResources": [
+      "/api/users",
+      "/api/clients"
+    ]
+  }
+]

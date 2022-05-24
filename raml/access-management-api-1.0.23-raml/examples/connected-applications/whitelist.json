@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "client_id": "cba8d24f-8e6b-4615-9bb8-bc5a2c9933cd",
+      "authorized_scopes": [
+        "openid",
+        "offline_access",
+        "read:organization"
+      ]
+    }
+  ],
+  "total": 1
+}

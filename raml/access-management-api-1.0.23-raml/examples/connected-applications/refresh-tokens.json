@@ -1,0 +1,12 @@
+[
+  {
+    "refresh_token": "********",
+    "user_id": "3b0c42f9-edaf-4075-a61c-7e9711247a52",
+    "client_id": "78941e8d-7b57-4e90-bee6-46d5b668e4a6",
+    "next_refresh_token": "********",
+    "prev_refresh_token": "********",
+    "scopes": ["openid", "refresh_token", "org:admin"],
+    "expires_at": 5614654321,
+    "expires_in": 8873927299
+  }
+]

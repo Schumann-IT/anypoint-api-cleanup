@@ -1,0 +1,175 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  id: string
+  groupId: string
+  assetId: string
+  version: string
+  isPublic: boolean
+  productAPIVersion: string
+  versionGroup: string
+  description: string
+  name: string
+  type: string
+  createdAt: string
+  modifiedAt: string
+  runtimeVersion: string
+  assetLink: string
+  icon: string
+  rating: number
+  numberOfRates: integer
+  tags:
+    type: array
+    items:
+      type: object
+      properties:
+        value: string | nil
+        key: string | nil
+  versions?:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        groupId:
+          type: string
+        assetId:
+          type: string
+        version:
+          type: string
+        muleVersionId:
+          type: string
+  dependencies?:
+    type: array
+    items:
+      type: object
+      properties:
+        id?:
+          type: string
+        groupId?:
+          type: string
+        assetId?:
+          type: string
+        version?:
+          type: string
+        muleVersionId?:
+          type: string
+        type?:
+          type: string
+        name?:
+          type: string
+  files?:
+      type: array
+      items:
+        type: object
+        properties:
+          classifier:
+            type: string
+          packaging:
+            type: string
+          externalLink:
+            type: string
+          md5:
+            type: string
+          createdDate:
+            type: string
+  instances?:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        groupId:
+          type: string
+        assetId:
+          type: string
+        productAPIVersion:
+          type: string
+        versionGroup:
+          type: string
+        version:
+          type: string
+        environmentId:
+          type: string
+        providerId:
+          type: string
+        endpointUri:
+          type: string
+        name:
+          type: string
+        isPublic:
+          type: boolean
+        type:
+          type: string
+        fullname:
+          type: string
+  productAPIVersions?:
+    type: array
+    items:
+      type: object
+      properties:
+        productAPIVersion:
+          type: string
+        versions:
+          type: array
+  versionGroups?:
+    type: array
+    items:
+      type: object
+      properties:
+        versionGroup:
+          type: string
+        versions:
+          type: array
+  metadata?:
+    type: object
+    properties:
+      productApiVersion:
+        type: string
+  createdBy?:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      username?:
+        type: string
+      profilePhoto?:
+        type: string
+  permissions?:
+    type: array
+    items:
+      type: string
+  organization:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      domain:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      ownerId:
+        type: string
+      clientId:
+        type: string
+      idprovider_id:
+        type: string
+      isFederated:
+        type: boolean
+      parentOrganizationIds:
+        type: array
+      subOrganizationIds:
+        type: array
+      tenantOrganizationIds:
+        type: array
+      isMaster:
+        type: boolean

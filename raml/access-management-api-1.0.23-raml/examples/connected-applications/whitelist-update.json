@@ -1,0 +1,10 @@
+[
+  {
+    "client_id": "cf89d2b1-0f5f-4ef3-b70e-0954118d111f",
+    "authorized_scopes": [
+      "openid",
+      "offline_access",
+      "read:organization"
+    ]
+  }
+]

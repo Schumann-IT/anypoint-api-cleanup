@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "authorization_id": "d75aae72-d7ee-4a3f-b997-e6a11275e48a",
+      "client_id": "d5e32198-7cc1-4c26-ab83-fd8912e16967",
+      "client_name": "RAML Sync Tool",
+      "client_uri": "https://ramlsynctool.com/about.html",
+      "tos_uri": "https://ramlsynctool.com/tos.html",
+      "policy_uri": "https://ramlsynctool.com/privacy.html",
+      "scopes": [
+        "read:raml",
+        "read:users",
+        "offline_access"
+      ]
+    }
+  ],
+  "total": 1
+}

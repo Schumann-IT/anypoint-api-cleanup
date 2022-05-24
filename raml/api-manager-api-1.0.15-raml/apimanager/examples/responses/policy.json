@@ -1,0 +1,39 @@
+{
+  "apiId": 21710,
+  "assetId": "custom-jwt-validation",
+  "assetVersion": "0.1.2",
+  "audit": {
+      "created": {
+          "date": "2020-04-14T00:26:02.090Z"
+      },
+      "updated": {
+          "date": "2021-04-13T21:11:06.701Z"
+      }
+  },
+  "configurationData": {
+      "clientIdExpression": "#[vars.claimSet.client_id]",
+      "jwksServiceTimeToLive": 60,
+      "jwksUrl": "http://your-jwks-service.example:80/base/path",
+      "jwtExpression": "#[attributes.headers['jwt']]",
+      "jwtKeyOrigin": "text",
+      "jwtOrigin": "httpBearerAuthenticationHeader",
+      "mandatoryAudClaim": false,
+      "mandatoryExpClaim": true,
+      "mandatoryNbfClaim": false,
+      "signingKeyLength": 256,
+      "signingMethod": "rsa",
+      "skipClientIdValidation": true,
+      "supportedAudiences": "aud.example.com",
+      "textKey": "your-(256|384|512)-bit-secret",
+      "validateAudClaim": false,
+      "validateCustomClaim": true
+  },
+  "disabled": false,
+  "groupId": "ac7c3d6e-9140-4045-ba45-3d42978810db",
+  "id": 597271,
+  "masterOrganizationId": "ac7c3d6e-9140-4045-ba45-3d42978810db",
+  "order": 2,
+  "organizationId": "ac7c3d6e-9140-4045-ba45-3d42978810db",
+  "pointcutData": null,
+  "policyTemplateId": "1040"
+}

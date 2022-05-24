@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "role_id": "8b7caaba-e94a-11e4-b02c-1681e6b88ec1",
+      "name": "Read Servers",
+      "context_params": {
+        "org": "7f30ff47-5917-4a5a-b94d-9fe029edc04d",
+        "envId": "a4946d03-6da4-45e1-9bfb-5bfe029c7793"
+      }
+    },
+    {
+      "role_id": "53823f29-6e57-4c42-acdb-e42a881a888f",
+      "name": "Manage Servers",
+      "context_params": {
+        "org": "7f30ff47-5917-4a5a-b94d-9fe029edc04d",
+        "envId": "4c4efd56-9232-4f41-bb5c-4990539d519f"
+      }
+    }
+  ],
+  "total": 2
+}

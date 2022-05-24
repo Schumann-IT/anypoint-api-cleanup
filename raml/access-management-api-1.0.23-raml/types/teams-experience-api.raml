@@ -1,0 +1,141 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for teams
+
+uses:
+  primitives: ./primitives.raml
+  teams: ./teams.raml
+
+types:
+  TeamAbbreviated:
+    type: object
+    additionalProperties: false
+    properties:
+      team_id:
+        description: The id of the team. Team_id is globally unique.
+        type: primitives.IdString
+      team_name:
+        description: The name of the team. Name is unique among teams within the organization.
+        type: string
+        minLength: 1
+        maxLength: 255
+
+  TeamExtended:
+    type: teams.Team
+    additionalProperties: false
+    properties:
+      is_assigned_via_external_groups:
+        description: whether team membership was granted due to an external group.
+        type: boolean
+
+      external_group_mappings?:
+        description:  a preview of the team's group mappings, ordered by group name ascending
+        type: object
+        properties:
+          data:
+            type: array
+            maxItems: 5
+            items:
+              type: teams.TeamExternalGroupMapping
+          total:
+            type: number
+
+      membership_count:
+        description: The count of unqiue user members in the team (including descendant teams).
+        type: integer
+      membership_type:
+        description: Whether the member is a regular member, a maintainer or not a member.
+        type: teams.TeamMemberType | nil
+      ancestors?:
+        description: |
+          Array of teams that are the ancestors of the team. The order is from the root team to the parent of this team.
+        type: array
+        items: teams.Team
+      caller_capabilities?:
+        description: |
+          Array of capabilities the caller has over the team
+        type: array
+        items:
+          enum: [
+            view,
+            update,
+            moveLocation,
+            delete,
+            viewMembers,
+            addMembers,
+            removeMembers,
+            createChild,
+            viewRoles,
+            addRoles,
+            removeRoles,
+            viewExternalGroupMapping,
+            addExternalGroupMapping,
+            removeExternalGroupMapping
+          ]
+
+  RoleAssignmentsByContext:
+    type: object
+    additionalProperties: false
+    properties:
+      organization_id:
+        type: primitives.IdString | nil
+      organization_name:
+        type: primitives.IdString | nil
+      environment_id:
+        type: primitives.IdString | nil
+      environment_name:
+        type: primitives.IdString | nil
+      data:
+        type: array
+        items:
+          type: RolesForProduct
+
+  RolesForProduct:
+    additionalProperties: false
+    properties:
+      product_id:
+        type: string
+      role_ids:
+        type: array
+        items:
+          type: string
+
+  RolegroupMigrationRequestBase:
+    type: object
+    discriminator: kind
+    properties:
+      kind: string
+
+  RoleGroupMigrationToPermissionsRequest:
+    type: RolegroupMigrationRequestBase
+    discriminatorValue: to_permissions
+
+  RoleGroupMigrationToNewTeamRequest:
+    type: RolegroupMigrationRequestBase
+    discriminatorValue: to_new_team
+    properties:
+      team_name: teams.TeamName
+      parent_team_id:
+        description: The team_id of the parent of this team.
+        type: primitives.IdString
+      maintainer_id?:
+        description: The id of a user to promote to initial team maintainer
+        type: primitives.IdString
+
+  RoleGroupMigrationMergeWithTeamRequest:
+    type: RolegroupMigrationRequestBase
+    discriminatorValue: merge_with_team
+    properties:
+      target_team_id:
+        description: The team_id to merge this rolegroup with.
+        type: primitives.IdString
+
+  RolegroupMigrationRequest:
+    type: RoleGroupMigrationToPermissionsRequest | RoleGroupMigrationToNewTeamRequest | RoleGroupMigrationMergeWithTeamRequest
+
+  RolegroupMigrationResponse:
+    additionalProperties: false
+    properties:
+      team_id:
+        description: The ID of the newly created team
+        type: primitives.IdString

@@ -1,0 +1,9 @@
+{
+  "main": "internalApi.v2.raml",
+  "name": "Exchange Internal API",
+  "classifier": "raml",
+  "groupId": "f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform",
+  "assetId": "exchange-experience-internal-api",
+  "version": "2.0.3",
+  "apiVersion": "v2"
+}

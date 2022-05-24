@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "organization_id": "dec88a92-657b-4a36-a5e6-101c990ec2fa",
+      "organization_name": "Mythical",
+      "environment_id": "86cace9d-44e5-4a6f-bb14-b24f9f8ac7b1",
+      "environment_name": "Design",
+      "data": [
+        {
+          "product_id": "product_1",
+          "role_ids": [
+            "1"
+          ]
+        },
+        {
+          "product_id": "product_2",
+          "role_ids": [
+            "3"
+          ]
+        }
+      ]
+    },
+    {
+      "organization_id": "dec88a92-657b-4a36-a5e6-101c990ec2fa",
+      "organization_name": "Mythical",
+      "environment_id": null,
+      "environment_name": null,
+      "data": [
+        {
+          "product_id": "product_1",
+          "role_ids": [
+            "2"
+          ]
+        }
+      ]
+    }
+  ],
+  "total": 2
+}

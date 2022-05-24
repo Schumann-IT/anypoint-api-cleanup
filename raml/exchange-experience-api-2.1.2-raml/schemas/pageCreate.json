@@ -1,0 +1,11 @@
+{
+  "title": "Page Created",
+  "type": "object",
+  "required": ["pagePath"],
+  "properties": {
+    "pagePath": {
+      "title": "Page Path",
+      "type": "string"
+    }
+  }
+}

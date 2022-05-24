@@ -1,0 +1,10 @@
+[
+  {
+    "productAPIVersion": "v1",
+    "versionGroup": "v1"
+  },
+  {
+    "productAPIVersion": "v2",
+    "versionGroup": "v2"
+  }
+]

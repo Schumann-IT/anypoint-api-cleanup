@@ -1,0 +1,46 @@
+{
+  "type": {
+    "description": "PingFederate",
+    "name": "ping"
+  },
+  "grant_types": [
+    {
+      "name": "password",
+      "label": "Resource Owner Grant",
+      "required": false,
+      "exclude": [],
+      "depends": []
+    },
+    {
+      "name": "implicit",
+      "label": "Implicit Grant",
+      "required": false,
+      "exclude": [],
+      "depends": []
+    },
+    {
+      "name": "client_credentials",
+      "label": "Client Credentials Grant",
+      "required": false,
+      "exclude": [],
+      "depends": []
+    },
+    {
+      "name": "authorization_code",
+      "label": "Authorization Code Grant",
+      "required": false,
+      "exclude": [],
+      "depends": []
+    },
+    {
+      "name": "refresh_token",
+      "label": "Refresh Token",
+      "required": false,
+      "exclude": [],
+      "depends": [
+        "authorization_code",
+        "password"
+      ]
+    }
+  ]
+}

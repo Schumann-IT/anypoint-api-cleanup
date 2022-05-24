@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["APPROVED", "REVOKED", "REJECTED"]
+    },
+    "tierId": {
+      "type": "integer"
+    }
+  }
+}

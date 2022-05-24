@@ -1,0 +1,42 @@
+{
+  "name": "Test LDAP Connection",
+  "type": {
+    "name": "ldap",
+    "description": "LDAP"
+  },
+  "connection": {
+    "binddn": "cn=foo,dc=example,dc=com",
+    "connectTimeoutSeconds": 60,
+    "host": "ldap://some-ldap-host.example.com",
+    "operationTimeoutMs": 60000,
+    "password": "result.defaultPassword",
+    "port": 3389
+  },
+  "search_bases": {
+    "group": "ou=groups,dc=example,dc=com",
+    "user": "ou=people,dc=example,dc=com"
+  },
+  "dns": {
+    "group": "cn={{groupName}},ou=groups,dc=example,dc=com",
+    "user": "uid={{username}},ou=people,dc=example,dc=com"
+  },
+  "filters": {
+    "groupsByUsername": "(&(objectClass=groupOfUniqueNames)(uniqueMember=uid={{username}},ou=people,dc=example,dc=com))",
+    "userByUsername": "(&(objectClass=inetOrgPerson)(uid={{username}}))"
+  },
+  "user_mapping": {
+    "email": "mail",
+    "firstName": "givenName",
+    "id": "entryUUID",
+    "lastName": "sn",
+    "username": "uid"
+  },
+  "group_mapping": {
+    "groupName": "cn",
+    "id": "entryUUID"
+  },
+  "test_connection": {
+    "username": "Test123",
+    "password": ""
+  }
+}

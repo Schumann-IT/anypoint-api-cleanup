@@ -1,0 +1,19 @@
+#%RAML 1.0 ResourceType
+
+description: A collection of assigned asset users
+get:
+  description: Get users assigned to the asset
+  responses:
+    200:
+      body:
+        application/json:
+          schema: !include ../schemas/asset-users.json
+          example: !include ../examples/asset-users.json
+put:
+  description: Assign users to an asset
+  body:
+      schema: !include ../schemas/assign-users.json
+      example: !include ../examples/assign-users.json
+  responses:
+    204:
+      description: User assigned to the asset

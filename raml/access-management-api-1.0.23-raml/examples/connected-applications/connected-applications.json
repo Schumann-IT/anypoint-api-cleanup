@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "client_id": "0fa2aa2f0aeb4978b96796a0843f898c",
+      "owner_org_id": "0eb65884-4f75-48f7-a8bc-4e30b46e721d",
+      "client_name": "Client Credz",
+      "client_secret": "B0313ad5a6B44f7ebb4Bf482C49327e1",
+      "public_keys": [],
+      "redirect_uris": [
+        "https://why.net"
+      ],
+      "grant_types": [
+        "client_credentials"
+      ],
+      "scopes": [],
+      "enabled": true,
+      "audience": "internal",
+      "client_uri": null,
+      "policy_uri": null,
+      "tos_uri": null
+    },
+    {
+      "client_id": "e8c28f0249a6417bb892ff8d6013d628",
+      "owner_org_id": "0eb65884-4f75-48f7-a8bc-4e30b46e721d",
+      "client_name": "OpenID Integration",
+      "client_secret": "eA0Fa9BaAe454F32A6Ae8ABBc1b730C0",
+      "public_keys": [],
+      "redirect_uris": [
+        "https://example.com"
+      ],
+      "grant_types": [
+        "implicit",
+        "authorization_code",
+        "refresh_token"
+      ],
+      "scopes": [
+        "full",
+        "read:full",
+        "openid",
+        "profile",
+        "email",
+        "offline_access"
+      ],
+      "enabled": true,
+      "audience": "internal",
+      "client_uri": null,
+      "policy_uri": null,
+      "tos_uri": null
+    }
+  ],
+  "total": 2
+}

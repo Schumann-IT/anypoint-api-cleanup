@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "identity_type": "team",
+      "id": "f59632be-e43f-4c4f-a303-36b8b0623f29",
+      "team_name": "IT",
+      "membership_type": "member",
+      "is_assigned_via_external_groups": false,
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z"
+    }
+  ],
+  "total": 1
+}

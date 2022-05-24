@@ -1,0 +1,14 @@
+{
+  "id": "4b353f44-6486-42ae-ae77-18b4032f9643",
+  "username": "7b633d56-de50-11e9-8a34-2a2ae2dbcce4:f0c9b011-980e-4928-9430-e60e3a97c043",
+  "firstName": "",
+  "lastName": "",
+  "email": "",
+  "enabled": true,
+  "deleted": false,
+  "idprovider_id": "mulesoft",
+  "type": "proxy",
+  "createdAt": "2019-09-24T00:36:58.000Z",
+  "updatedAt": "2019-09-24T00:36:58.000Z",
+  "organizationId": "f0c9b011-980e-4928-9430-e60e3a97c043"
+}

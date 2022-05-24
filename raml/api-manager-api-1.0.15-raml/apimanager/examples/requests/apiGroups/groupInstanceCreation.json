@@ -1,0 +1,7 @@
+{
+  "groupId": 1,
+  "groupVersionId": 2,
+  "groupInstanceLabel": "prod",
+  "apiInstances": [3, 17],
+  "status": "DRAFT"
+}

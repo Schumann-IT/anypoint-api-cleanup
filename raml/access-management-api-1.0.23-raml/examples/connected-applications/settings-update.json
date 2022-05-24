@@ -1,0 +1,16 @@
+{
+  "whitelist_enabled": false,
+  "applications_enabled": "partial",
+  "grant_types_allowed": [
+    "implicit",
+    "client_credentials",
+    "refresh_token"
+  ],
+  "whitelist_internal_applications": true,
+  "whitelist": [
+    {
+      "client_id": "cba8d24f-8e6b-4615-9bb8-bc5a2c9933cd",
+      "as_id": "anypoint"
+    }
+  ]
+}

@@ -1,0 +1,677 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for supported external IdPs
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+  IdentityProviderTypesGet:
+    additionalProperties: false
+    properties:
+      provider_id: string
+      org_id: string
+
+  SAMLProvider:
+    additionalProperties: false
+    properties:
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ saml ]
+      service_provider:
+        additionalProperties: false
+        properties:
+          urls:
+            additionalProperties: false
+            properties:
+              sign_on: string
+              sign_out: string
+      saml:
+        additionalProperties: false
+        properties:
+          audience: string
+          issuer: string
+          public_key:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            maxItems: 2
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              username_attribute?: string
+              firstname_attribute?: string
+              lastname_attribute?: string
+              email_attribute?: string
+              group_attribute?: string
+          idp_initiated_sso_enabled?: boolean
+          sp_initiated_sso_enabled?: boolean
+          require_encrypted_saml_assertions?: boolean
+
+  SAMLProviderPatch:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+      service_provider?:
+        additionalProperties: false
+        properties:
+          urls?:
+            additionalProperties: false
+            properties:
+              sign_on?: string
+              sign_out?: string
+      saml?:
+        additionalProperties: false
+        properties:
+          audience?: string
+          issuer?: string
+          public_key?:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            maxItems: 2
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              username_attribute?: string
+              firstname_attribute?: string
+              lastname_attribute?: string
+              email_attribute?: string
+              group_attribute?: string
+          idp_initiated_sso_enabled?: boolean
+          sp_initiated_sso_enabled?: boolean
+          require_encrypted_saml_assertions?: boolean
+
+  SAMLProviderGet:
+    type: [IdentityProviderTypesGet, SAMLProvider]
+
+  SAMLProviderKeys:
+    additionalProperties: false
+    properties:
+      id: string
+      primary: boolean
+      created_at: string
+      is_default_certificate?: boolean
+
+  SAMLProviderKeysArray:
+    type: array
+    items:
+      type: SAMLProviderKeys
+    minItems: 1
+
+  SAMLProviderKeysPost:
+    additionalProperties: false
+    properties:
+      key_pair?:
+        additionalProperties: false
+        properties:
+          private_key: string
+          certificate: string
+
+  OpenIDProviderManual:
+    additionalProperties: false
+    properties:
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ openid ]
+      oidc_provider:
+        additionalProperties: false
+        properties:
+          client:
+            additionalProperties: false
+            properties:
+              credentials:
+                additionalProperties: false
+                properties:
+                  id: string
+                  secret: string
+          issuer?: string
+          urls:
+            additionalProperties: false
+            properties:
+              authorize: string
+              token: string
+              userinfo: string
+          group_scope?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              group_expression?: string
+      allow_untrusted_certificates?: boolean
+
+  OpenIDProviderDynamic:
+    additionalProperties: false
+    properties:
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ openid ]
+      oidc_provider:
+        additionalProperties: false
+        properties:
+          client:
+            additionalProperties: false
+            properties:
+              urls:
+                additionalProperties: false
+                properties:
+                  register: string
+              registration?:
+                additionalProperties: false
+                properties:
+                  authorization: string
+          issuer?: string
+          urls:
+            additionalProperties: false
+            properties:
+              authorize: string
+              token: string
+              userinfo: string
+          group_scope?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              group_expression?: string
+      allow_untrusted_certificates?: boolean
+
+  OpenIDProviderPatch:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+      oidc_provider?:
+        additionalProperties: false
+        properties:
+          client?:
+            additionalProperties: false
+            properties:
+              credentials?:
+                additionalProperties: false
+                properties:
+                  id?: string
+                  secret?: string
+              urls?:
+                additionalProperties: false
+                properties:
+                  register?: string
+              registration?:
+                additionalProperties: false
+                properties:
+                  authorization?: string
+          issuer?: string
+          urls?:
+            additionalProperties: false
+            properties:
+              authorize?: string
+              token?: string
+              userinfo?: string
+          group_scope?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              group_expression?: string
+      allow_untrusted_certificates?: boolean
+
+  OpenIDProviderGet:
+    type: IdentityProviderTypesGet
+    additionalProperties: false
+    properties:
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ openid ]
+      oidc_provider:
+        additionalProperties: false
+        properties:
+          client:
+            additionalProperties: false
+            properties:
+              credentials:
+                additionalProperties: false
+                properties:
+                  id: string
+                  secret?: string
+              urls?:
+                additionalProperties: false
+                properties:
+                  register: string
+              registration?:
+                additionalProperties: false
+                properties:
+                  authorization?: string
+              token_endpoint_auth_methods_supported?: string[]
+          issuer: string
+          urls:
+            additionalProperties: false
+            properties:
+              authorize: string
+              redirect: string
+              token: string
+              userinfo: string
+          group_scope?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              group_expression?: string
+      service_provider:
+        additionalProperties: false
+        properties:
+          urls:
+            additionalProperties: false
+            properties:
+              sign_on: string
+      allow_untrusted_certificates: boolean
+
+  LDAPProvider:
+    additionalProperties: false
+    properties:
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ ldap ]
+      connection:
+        additionalProperties: false
+        properties:
+          binddn: string
+          connectTimeoutSeconds: number
+          host: string
+          operationTimeoutMs: number
+          password: string
+          port: number
+          validatecert?: boolean
+      search_bases:
+        additionalProperties: false
+        properties:
+          group: string
+          user: string
+      dns:
+        additionalProperties: false
+        properties:
+          group: string
+          user: string
+      filters:
+        additionalProperties: false
+        properties:
+          groupsByUsername: string
+          userByUsername: string
+      user_mapping:
+        additionalProperties: false
+        properties:
+          email: string
+          firstName: string
+          id: string
+          lastName: string
+          username: string
+      group_mapping:
+        additionalProperties: false
+        properties:
+          groupName: string
+          id: string
+
+  LDAPProviderPatch:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+      connection?:
+        additionalProperties: false
+        properties:
+          binddn?: string
+          connectTimeoutSeconds?: number
+          host?: string
+          operationTimeoutMs?: number
+          password?: string
+          port?: number
+          validatecert?: boolean
+      search_bases?:
+        additionalProperties: false
+        properties:
+          group?: string
+          user?: string
+      dns?:
+        additionalProperties: false
+        properties:
+          group?: string
+          user?: string
+      filters?:
+        additionalProperties: false
+        properties:
+          groupsByUsername?: string
+          userByUsername?: string
+      user_mapping?:
+        additionalProperties: false
+        properties:
+          email?: string
+          firstName?: string
+          id?: string
+          lastName?: string
+          username?: string
+      group_mapping?:
+        additionalProperties: false
+        properties:
+          groupName?: string
+          id?: string
+
+  LDAPProviderGet:
+    type: [IdentityProviderTypesGet, LDAPProvider]
+
+  LDAPProviderTest:
+    additionalProperties: false
+    properties:
+      name?: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ ldap ]
+      connection:
+        additionalProperties: false
+        properties:
+          binddn: string
+          connectTimeoutSeconds: number
+          host: string
+          operationTimeoutMs: number
+          password?: string
+          port: number
+          validatecert?: boolean
+      search_bases:
+        additionalProperties: false
+        properties:
+          group: string
+          user: string
+      dns:
+        additionalProperties: false
+        properties:
+          group: string
+          user: string
+      filters:
+        additionalProperties: false
+        properties:
+          groupsByUsername: string
+          userByUsername: string
+      user_mapping:
+        additionalProperties: false
+        properties:
+          email: string
+          firstName: string
+          id: string
+          lastName: string
+          username: string
+      group_mapping:
+        additionalProperties: false
+        properties:
+          groupName: string
+          id: string
+      test_connection:
+        additionalProperties: false
+        properties:
+          username: string
+          password: string
+
+  ExternalIdentityProvider:
+    type: SAMLProvider | LDAPProvider | OpenIDProviderManual | OpenIDProviderDynamic
+
+  ExternalIdentityProviderPatch:
+    type: SAMLProviderPatch | LDAPProviderPatch | OpenIDProviderPatch
+
+  ExternalIdentityProviderGet:
+    type: SAMLProviderGet | LDAPProviderGet | OpenIDProviderGet
+
+  ExternalIdentityProvidersFind:
+    additionalProperties: false
+    properties:
+      provider_id: string
+      org_id: string
+      name: string
+      type:
+        additionalProperties: false
+        properties:
+          description?: string
+          name:
+            enum: [ ldap, openid, saml ]
+
+  SAMLProviderLegacyWithStrPublicKey:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+          name?:
+            enum: [ saml ]
+      service_provider?:
+        additionalProperties: false
+        properties:
+          name?: string
+          url?: string
+          urls?:
+            additionalProperties: false
+            properties:
+              sign_on?: string
+              sign_out?: string
+      saml?:
+        additionalProperties: false
+        properties:
+          name?: string
+          audience?: string
+          issuer?: string
+          public_key?: string
+          group_attribute?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              username_attribute?: string
+              firstname_attribute?: string
+              lastname_attribute?: string
+              email_attribute?: string
+              group_attribute?: string
+          idp_initiated_sso_enabled?: boolean
+          sp_initiated_sso_enabled?: boolean
+          bypass_expiration?: boolean
+      require_encrypted_saml_assertions?: boolean
+      allow_new_non_sso_users?: boolean
+
+  SAMLProviderLegacyWithArrPublicKey:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+          name?:
+            enum: [ saml ]
+      service_provider?:
+        additionalProperties: false
+        properties:
+          name?: string
+          url?: string
+          urls?:
+            additionalProperties: false
+            properties:
+              sign_on?: string
+              sign_out?: string
+      saml?:
+        additionalProperties: false
+        properties:
+          name?: string
+          audience?: string
+          issuer?: string
+          public_key?:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            maxItems: 2
+          group_attribute?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              username_attribute?: string
+              firstname_attribute?: string
+              lastname_attribute?: string
+              email_attribute?: string
+              group_attribute?: string
+          idp_initiated_sso_enabled?: boolean
+          sp_initiated_sso_enabled?: boolean
+          bypass_expiration?: boolean
+      require_encrypted_saml_assertions?: boolean
+      allow_new_non_sso_users?: boolean
+
+  OpenIDProviderLegacy:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+          name?:
+            enum: [ openid ]
+      oidc_provider?:
+        additionalProperties: false
+        properties:
+          name?: string
+          client?:
+            additionalProperties: false
+            properties:
+              credentials?:
+                additionalProperties: false
+                properties:
+                  id?: string
+                  secret?: string
+              urls?:
+                additionalProperties: false
+                properties:
+                  register?: string
+              registration?:
+                additionalProperties: false
+                properties:
+                  authorization?: string
+          issuer?: string
+          urls?:
+            additionalProperties: false
+            properties:
+              authorize?: string
+              token?: string
+              userinfo?: string
+          group_scope?: string
+          claims_mapping?:
+            additionalProperties: false
+            properties:
+              group_expression?: string
+      allow_untrusted_certificates?: boolean
+      allow_new_non_sso_users?: boolean
+
+  LDAPProviderLegacy:
+    additionalProperties: false
+    properties:
+      name?: string
+      type?:
+        additionalProperties: false
+        properties:
+          description?: string
+          name?:
+            enum: [ ldap ]
+      connection?:
+        additionalProperties: false
+        properties:
+          binddn?: string
+          connectTimeoutSeconds?: number
+          host?: string
+          operationTimeoutMs?: number
+          password?: string
+          port?: number
+          validatecert?: boolean
+      search_bases?:
+        additionalProperties: false
+        properties:
+          group?: string
+          user?: string
+      dns?:
+        additionalProperties: false
+        properties:
+          group?: string
+          user?: string
+      filters?:
+        additionalProperties: false
+        properties:
+          groupsByUsername?: string
+          userByUsername?: string
+          userByEmail?: string
+          groupByGroupName?: string
+      user_mapping?:
+        additionalProperties: false
+        properties:
+          email?: string
+          firstName?: string
+          id?: string
+          lastName?: string
+          username?: string
+      group_mapping?:
+        additionalProperties: false
+        properties:
+          groupName?: string
+          id?: string
+
+  LDAPProviderTestOld:
+    additionalProperties: false
+    properties:
+      identity_management:
+        type: LDAPProviderLegacy
+        additionalProperties: false
+        properties:
+          test_connection:
+            additionalProperties: false
+            properties:
+              username: string
+              password: string
+
+  ExternalIdentityProviderLegacy:
+    additionalProperties: false
+    properties:
+      identity_management:
+        type: SAMLProviderLegacyWithStrPublicKey | SAMLProviderLegacyWithArrPublicKey | OpenIDProviderLegacy | LDAPProviderLegacy
+      idprovider_id?: string
+
+  IdentityProviderSettings:
+    additionalProperties: false
+    properties:
+      allow_new_non_sso_users?: boolean
+      bypass_expiration?: boolean
+
+  AssociateIdentityProvider:
+    additionalProperties: false
+    properties:
+      link_with: primitives.jwt

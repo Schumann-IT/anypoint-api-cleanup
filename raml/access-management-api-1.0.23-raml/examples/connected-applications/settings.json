@@ -1,0 +1,6 @@
+{
+  "whitelist_enabled": false,
+  "applications_enabled": "partial",
+  "grant_types_allowed": ["implicit", "client_credentials", "refresh_token"],
+  "whitelist_internal_applications": true
+}

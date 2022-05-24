@@ -1,0 +1,11 @@
+{
+  "data": [
+    {
+      "id": "226909a3-7ad6-4f4f-8e2e-f8091c9e11d6",
+      "name": "test-env",
+      "type": "sandbox",
+      "organization_name": "mulesoft"
+    }
+  ],
+  "total": 3
+}

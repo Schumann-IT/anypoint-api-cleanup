@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "membership_type": "member",
+      "external_group_name": "admin_members",
+      "provider_id": "2e50e859-0042-46ff-8cf8-1ad6f0c78b67"
+    },
+    {
+      "membership_type": "maintainer",
+      "external_group_name": "admin_maintainers",
+      "provider_id": "2e50e859-0042-46ff-8cf8-1ad6f0c78b67"
+    }
+  ],
+  "total": 2
+}

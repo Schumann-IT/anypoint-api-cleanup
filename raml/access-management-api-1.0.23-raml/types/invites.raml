@@ -1,0 +1,166 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for invites
+
+uses:
+  primitives: ./primitives.raml
+  teams: ./teams.raml
+  roles: ./roles.raml
+
+types:
+  InviteBase:
+    additionalProperties: false
+    properties:
+      id: integer
+      code:
+        minLength: 1
+        maxLength: 255
+      invited_at: datetime
+      invited_email:
+        minLength: 1
+        maxLength: 255
+      invited_by_user:
+        additionalProperties: false
+        properties:
+          id: primitives.uuid
+          username:
+            minLength: 1
+            maxLength: 255
+          first_name:
+            minLength: 1
+            maxLength: 255
+          last_name:
+            minLength: 1
+            maxLength: 255
+      invited_to_org:
+        additionalProperties: false
+        properties:
+          id: primitives.uuid
+          name:
+            minLength: 1
+            maxLength: 255
+      expires_at: datetime
+      status:
+        enum: [ INVITED, ACCEPTED, CANCELED, EXPIRED ]
+      completed_at: datetime | nil
+      completed_by_user: primitives.uuid | nil
+
+  InviteRoleGroupList:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        name:
+          minLength: 1
+          maxLength: 255
+        role_group_id: primitives.uuid
+
+  InviteTeamList:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        team_name:
+          minLength: 1
+          maxLength: 255
+        team_id: primitives.uuid
+        membership_type: teams.TeamMemberType
+
+  InviteRoleList:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        role_id: primitives.uuid
+        context_params: roles.ContextParams
+
+  InviteRoleGroups:
+    type: InviteBase
+    additionalProperties: false
+    properties:
+      role_groups?:
+        type: InviteRoleGroupList
+
+  InviteTeams:
+    type: InviteBase
+    additionalProperties: false
+    properties:
+      teams?:
+        type: InviteTeamList
+
+  InviteRoles:
+    type: InviteBase
+    additionalProperties: false
+    properties:
+      roles?:
+        type: InviteRoleList
+
+  Invite:
+    type: InviteRoleGroups | InviteTeams | InviteRoles
+
+  InviteList:
+    type: array
+    items:
+      Invite
+
+  InviteNewRoleGroups:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        email:
+          minLength: 1
+          maxLength: 255
+        role_groups?: InviteRoleGroupList
+
+  InviteNewTeams:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        email:
+          minLength: 1
+          maxLength: 255
+        role_groups?: InviteRoleGroupList
+        teams?:
+          type: array
+          items:
+            additionalProperties: false
+            properties:
+              team_id: primitives.uuid
+              membership_type: teams.TeamMemberType
+
+  InviteNewRoles:
+    type: array
+    items:
+      additionalProperties: false
+      properties:
+        email:
+          minLength: 1
+          maxLength: 255
+        role_groups?: InviteRoleGroupList
+        teams?:
+          type: array
+          items:
+            additionalProperties: false
+            properties:
+              team_id: primitives.uuid
+              membership_type: teams.TeamMemberType
+        roles?: InviteRoleList
+
+  InviteNewList:
+    type: InviteNewRoleGroups | InviteNewTeams | InviteNewRoles
+
+  InvitesResendResponse:
+    additionalProperties: false
+    properties:
+      succeeded:
+        type: array
+        items: integer
+      failed:
+        type: array
+        items: integer
+
+  InvitesIds:
+    type: array
+    items: integer

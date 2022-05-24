@@ -1,0 +1,1276 @@
+#%RAML 0.8
+
+title: API repository
+baseUri: https://anypoint.mulesoft.com/apimanager/api/{version}
+version: v1
+mediaType: application/json
+
+resourceTypes:
+  - collection:
+      get:
+        description: Returns a list of elements.
+        responses:
+          200:
+      post:
+        description: Creates a new element.
+        body:
+        responses:
+          201:
+            description: The new element has been successfully created.
+
+  - readOnlyCollection:
+      get:
+        description: Returns a list of elements.
+        responses:
+          200:
+  - collectionItem:
+      description: An instance of a single element.
+      get:
+        description: Returns an instance of a single element.
+        responses:
+          200:
+      put:
+        description: Updates a single element.
+        body:
+        responses:
+          201:
+      patch:
+        description: Patches a single element.
+        body:
+        responses:
+          200:
+      delete:
+        description: Deletes the instance of the element specified.
+        responses:
+          204:
+            description: The element has been deleted successfully.
+  - alertItem:
+      usage: Used for any resource that is a single item of a collection.
+      description: An <<resourcePathName | !singularize>> Item
+      get:
+        description: Gets an <<resourcePathName | !singularize>>.
+        responses:
+          401:
+            description: Authentication requirements not fulfilled.
+          403:
+            description: Insufficient permissions.
+          404:
+            description: Specified <<resourcePathName | !singularize>> not found.
+      patch:
+        description: Updates a <<resourcePathName | !singularize>>.
+        responses:
+          400:
+            description: Invalid <<resourcePathName | !singularize>> payload.
+          401:
+            description: Authentication requirements not fulfilled.
+          403:
+            description: Insufficient permissions.
+          404:
+            description: Specified <<resourcePathName | !singularize>> not found.
+      delete:
+        description: Deletes an <<resourcePathName | !singularize>>.
+        responses:
+          401:
+            description: Authentication requirements not fulfilled.
+          403:
+            description: Insufficient permissions.
+          404:
+            description: <<resourcePathName | !singularize>> not found.
+
+traits:
+  - searchable:
+      queryParameters:
+        offset:
+          description: Skip over a number of elements by specifying an offset value for the query.
+          type: integer
+          minimum: 0
+          maximum: 2147483647
+          default: 0
+        limit:
+          description: Limit the number of elements on the response.
+          type: integer
+          minimum: 1
+          maximum: 250
+          default: 100
+        sort:
+          description: Property to sort by.
+          type: string
+        ascending:
+          description: Order for sorting.
+          type: boolean
+        query:
+          description: Search criteria.
+          type: string
+
+/organizations/{organizationId}:
+  description: Organizations are the container entity for all API Manager-related resources.
+  uriParameters:
+    organizationId:
+      type: string
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      required: true
+
+  /environments/{environmentId}:
+    description: An environment.
+    uriParameters:
+      environmentId:
+        type: string
+        required: true
+
+    /apis:
+      description: A collection of APIs.
+      get:
+        queryParameters:
+          query:
+            type: string
+            description: A string that will be checked for a partial or similar matches of the name, description, label and tags
+          groupId:
+            type: string
+            description: A string that will be checked for an exact match of the groupId
+          assetId:
+            type: string
+            description: A string that will be checked for an exact match of the assetId
+          assetVersion:
+            type: string
+            description: A string that will be checked for an exact match of the assetVersion
+          instanceLabel:
+            type: string
+            description: A string that will be checked for an exact match of the instanceLabel
+          productVersion:
+            type: string
+            description: A string that will be checked for an exact match of the productVersion
+          autodiscoveryInstanceName:
+            type: string
+            description: A string that will be checked for an exact match of the autodiscoveryInstanceName
+          autodiscoveryApiName:
+            type: string
+            description: A string that will be checked for an exact match of the autodiscoveryApiName
+          filters:
+            type: string
+            description: Comma-separated list of filters, which can be "active" and/or "pinned"
+          offset:
+            description: Offset on the amount of assets (each of which has all its apis)
+            type: integer
+            default: 0
+          limit:
+            description: Limit on the amount of assets (each of which has all its apis)
+            type: integer
+            default: 100
+          sort:
+            type: string
+            enum: [id, name, createdDate, updatedDate]
+            default: name
+          ascending:
+            type: boolean
+            default: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include apimanager/examples/responses/apisSearch.json
+      post:
+        responses:
+          201:
+            body:
+              application/json:
+                example: !include apimanager/examples/promoteApiResponse.json
+          409:
+        body:
+          application/json:
+            schema:  !include apimanager/schemas/api.json
+            example: !include apimanager/examples/apiSpecBody.json
+          multipart/form-data:
+            formParameters:
+              instanceLabel:
+                type: string
+                required: false
+                minLength: 1
+              endpoint:
+                type: string
+                description: JSON of endpoint, which will override any enpoint passed in the file and the policies (if any)
+                required: false
+                minLength: 1
+              providerId:
+                description: If the form has the entry `providerId` but it's empty, it is effectively choosing CS as its provider
+                type: string
+                required: false
+                minLength: 0
+              file:
+                type: file
+                description: Zip or Bundle with an exported api. May also contain exported tiers, endpoint and policy configurations.
+                required: true
+
+      /{environmentApiId}:
+        description: An API on an environment.
+        uriParameters:
+          environmentApiId:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        get:
+          description: Returns an API.
+          queryParameters:
+            includeProxyTemplate:
+              default: false
+              description: Include the configured proxyTemplate to its associated endpoint
+              type: boolean
+            includeValidation:
+              default: false
+              description: Include the configured validation to its associated endpoint
+              type: boolean
+            includeTlsContexts:
+              default: false
+              description: Include the configured TLS contexts
+              type: boolean
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include apimanager/examples/getEnvironmentApiResponse.json
+        put:
+          body:
+          responses:
+            201:
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/updatedApiVersion.json
+        patch:
+          queryParameters:
+            force:
+              type: boolean
+              default: false
+              description: Allows patching the API autodiscoveryInstanceName. You may want to change the 'api.version' configuration on all Mule 2 & Mule 3 applications tracking this API.
+          body:
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/updatedApiVersion.json
+        delete:
+          responses:
+            204:
+
+        /pin:
+          description: Mark an environment API version as favourite
+          put:
+            description: Pin an environment API version
+            responses:
+              201:
+          delete:
+            description: Unpin an environment API version
+            responses:
+              204:
+
+        /policies:
+          description: A collection of API policies.
+          type: collection
+          get:
+            headers:
+              if-modified-since:
+                description: Last modification date (EPOC)
+                type: number
+                required: false
+            queryParameters:
+              standalone:
+                type: boolean
+              version:
+                type: string
+                default: v1
+                pattern: ^v\d+(.\d+)?(.\d+)?$
+              fullInfo:
+                type: boolean
+                default: true
+                description: If true, it completes each policy with its template and the configuration data.
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/policies.json
+              304:
+          post:
+            body:
+            responses:
+              201:
+          patch:
+            description: Updates multiple policies. Currently, only updates in order field are supported.
+            body:
+              example: |
+                [
+                  {"id": 51, "order": 1},
+                  {"id": 63, "order": 2}
+                ]
+            responses:
+              200:
+              400:
+
+          /{policyId}:
+            description: An API policy.
+            uriParameters:
+              policyId:
+                type: integer
+                minimum: 1
+                maximum: 2147483647
+            get:
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/policy.json
+            patch:
+              body:
+              responses:
+                200:
+            delete:
+              description: Unapplies a policy.
+              responses:
+                204:
+
+            /implementationAsset:
+              description: Manage the implementation asset.
+              post:
+                description: Updates the implementation asset.
+                queryParameters:
+                  dryRun:
+                    description: Perform a dry run of the implementation update
+                    type: boolean
+                    default: false
+                responses:
+                  201:
+                  404:
+
+        /tiers:
+          description: Manages API tiers.
+          type: collection
+          get:
+            description: Retrieves a list of tiers for the supplied API.
+            is: [ searchable ]
+            queryParameters:
+              active:
+                description: Retrieve only active tiers if set to true.
+                type: boolean
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/tiers.json
+          post:
+            description: Creates a sla tier for the API.
+            body:
+              application/json:
+                example: !include apimanager/examples/requests/tier.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/tier.json
+              400:
+              409:
+
+          /{tierId}:
+            description: A particular tier associated with the API.
+            put:
+              description: Update a tier associated with an API.
+              body:
+                application/json:
+                  example: !include apimanager/examples/requests/tier.json
+              responses:
+                201:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/tier.json
+                400:
+                409:
+            delete:
+              description: Delete a tier that has no active applications.
+              responses:
+                204:
+
+        /group-tiers:
+          head:
+            description: Retrieves a count group tiers of the API version
+            responses:
+              200:
+
+        /group-contracts:
+          get:
+            description: Retrieves a list of group contracts of the API version
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/contracts.json
+        /contracts:
+          type: collection
+          post:
+            description: Creates new contract between an API and the application.
+            body:
+              application/json:
+                schema: !include apimanager/schemas/contractPOST.json
+                example: !include apimanager/examples/requests/contractThroughApi.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/contractCreation.json
+              409:
+          get:
+            description: Retrieves a list of applications with contracts with the API.
+            is: [ searchable ]
+            queryParameters:
+              includeExtraApplicationData:
+                type: boolean
+              includeExtraRedirections:
+                type: boolean
+              coreServicesId:
+                type: string
+              status:
+                type: string
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/contracts.json
+
+          /{contractId}:
+            description: A particular contract associated with the API.
+            get:
+              description: Retrieves a specific contract for the API.
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/contract.json
+            patch:
+              description: Patches contract conditions.
+              body:
+                application/json:
+                  schema: !include apimanager/schemas/contractPATCH.json
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/contractCreation.json
+            delete:
+              description: Deletes the contract.
+              responses:
+                204:
+
+        /alerts:
+          type: { collection }
+          get:
+            responses:
+              200:
+                description: Successfully retrieved an API's alert definitions.
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/alerts.json
+
+          post:
+            body:
+              application/json:
+                example: !include apimanager/examples/requests/alert.json
+            responses:
+              201:
+                description: Successfully created alert definition.
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/alert.json
+
+          /{alertId}:
+            uriParameters:
+              alertId:
+                type: string
+            type: { alertItem }
+            get:
+              responses:
+                200:
+                  description: Successfully retrieved alert definition.
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/alert.json
+            patch:
+              body:
+                application/json:
+                  example: !include apimanager/examples/requests/alert.json
+              responses:
+                200:
+                  description: Successfully updated alert definition.
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/alert.json
+
+            delete:
+              description: Deletes the specified alert definition.
+              responses:
+                204:
+                  description: Successfully deleted alert definition.
+        /bundle:
+          get:
+            description: A zip with all the api's information - Equivalent to exporting the api
+            queryParameters:
+              slaTiers:
+                type: boolean
+                description: Include SLA tiers.
+                default: false
+              endpoint:
+                type: boolean
+                description: Include endpoint definition and policies.
+                default: false
+            responses:
+              200:
+                body:
+                  application/zip:
+
+        /tags:
+          /{tag}:
+            put:
+              responses:
+                201:
+            delete:
+              responses:
+                204:
+
+        /autodiscoveryProperties:
+          get:
+            description: Get the autodiscovery properties required for a gateway to track the API.
+            queryParameters:
+              gatewayVersion:
+                description: The version of the gateway that will use the autodiscovery properties to track this API, written in semver.
+                type: string
+                example: 4.1.0
+                required: true
+            responses:
+              200:
+                body:
+                  application/json:
+
+        /tls-contexts:
+          description: TLS Contexts configuration for an API to use HTTPS Proxies. It returns reference ids from Secrets Manager
+          get:
+            description: Retrieves TLS Contexts configuration for a given API endpoint
+            responses:
+              200:
+                description: Successful
+                body:
+                  application/json:
+                    example: !include apimanager/examples/tlsContextsResponse.json
+              400:
+                description: Bad request
+              404:
+                description: No TLS Contexts found
+          post:
+            description: Creates TLS Contexts configuration
+            body:
+              application/json:
+                example: !include apimanager/examples/tlsContextsRequest.json
+            responses:
+              201:
+                description: TLS Contexts configuration was created successfully
+              400:
+                description: Bad request
+              409:
+                description: TLS Contexts for that API endpoint already existed
+          put:
+            description: Updates TLS Contexts configuration
+            body:
+              application/json:
+                example: !include apimanager/examples/tlsContextsRequest.json
+            responses:
+              200:
+                description: TLS Contexts configuration was successfully updated
+          delete:
+            description: Deletes TLS Contexts configuration
+            responses:
+              204:
+                description: TLS Contexts successfully deleted
+    /groupInstances:
+      post:
+        description: Creates a Group instance
+        body:
+          application/json:
+            schema:  !include apimanager/schemas/apiGroups/groupInstance.json
+            example: !include apimanager/examples/requests/apiGroups/groupInstanceCreation.json
+        responses:
+          201:
+            description: Group instance was created successfully
+          400:
+            description: Bad request
+      get:
+        description: Gets a list of group istances by environmentId
+        responses:
+          200:
+      /{groupInstanceId}:
+        uriParameters:
+          groupInstanceId:
+            type: integer
+            minimum: 1
+            maximum: 2147483647
+        get:
+          description: Get a group instance
+          responses:
+            200:
+              description: Successful
+              body:
+                application/json:
+            404:
+              description: Group instance not found
+        patch:
+          description: Updates a group instance
+          body:
+            application/json:
+              schema:  !include apimanager/schemas/apiGroups/groupInstanceUpdate.json
+          responses:
+            200:
+        delete:
+          description: Deletes a group instance
+          responses:
+            201:
+        /contracts:
+          type: collection
+          post:
+            description: Creates new contract between a group instance and a application.
+            body:
+              application/json:
+                schema: !include apimanager/schemas/contractPOST.json
+                example: !include apimanager/examples/requests/contractThroughApi.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/apiGroups/contractCreation.json
+              409:
+          get:
+            description: Retrieves the list of contracts of a group instances
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/apiGroups/groupInstanceContractsRetrieve.json
+          head:
+            description: Retrieves the count of contracts of a group instances
+            responses:
+              200:
+          /{contractId}:
+            description: A particular contract associated with a group instance.
+            get:
+              description: Retrieves a specific contract for the group instance.
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/apiGroups/groupInstanceContractRetrieve.json
+            delete:
+              description: Delete a no applied group instance contract
+              responses:
+                204:
+            patch:
+              description: Update a group instance contract
+              responses:
+                200:
+        /tiers:
+          get:
+            description: Retrieves the tiers of a Group instance
+            responses:
+              200:
+                description: Successful
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/apiGroups/groupInstanceTiersRetrieve.json
+          post:
+            description: Creates a Group instance tier
+            body:
+              application/json:
+                schema:  !include apimanager/schemas/apiGroups/groupInstanceTier.json
+                example: !include apimanager/examples/requests/apiGroups/groupInstanceTierCreation.json
+            responses:
+              201:
+                description: Successful
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/apiGroups/groupInstanceTierCreation.json
+              400:
+                description: Bad request
+          /{tierId}:
+            description: A Group instance tier ID
+            type: collectionItem
+            uriParameters:
+              tierId:
+                type: integer
+                minimum: 1
+                maximum: 2147483647
+
+            get:
+              description: Retrieves a group instance tier
+              responses:
+                200:
+                  description: Succesful
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/apiGroups/groupInstanceTierRetrieve.json
+                404:
+                  description: Group instance tier not found
+            delete:
+              description: Delete a tier that has no active applications
+              responses:
+                204:
+            put:
+              description: Updates a group instance tier
+              body:
+                application/json:
+                  schema:  !include apimanager/schemas/apiGroups/groupInstanceTierUpdate.json
+              responses:
+                200:
+                  description: Succesful
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/apiGroups/groupInstanceTierRetrieve.json
+                400:
+                  description: Bad request
+                404:
+                  description: Group instance tier not found
+
+        /apiInstances:
+          get:
+            description: Get API instances of a group instances
+            responses:
+              200:
+                body:
+                  application/json:
+    /managedServiceApis:
+      description: All the Managed Service APIs on an environment.
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include apimanager/examples/responses/managedServices/apiListResponse.json
+      /{managedServiceApiId}:
+        description: A Managed Service API in an environment.
+        uriParameters:
+          managedServiceApiId:
+            type: integer
+            minimum: 1
+            required: true
+        get:
+          description: Retrieve a specific Managed Service API
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/managedServices/managedServiceApiGet.json
+        patch:
+          description: Updates endpointUri and providerId of managed service API.
+          body:
+            application/json:
+              schema:  !include apimanager/schemas/managedServices/managedServiceApiPatch.json
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/managedServices/managedAPI.json
+        /policies:
+          description: All the policies of a managed service API
+          post:
+            description: Creates a Managed Service API Policy
+            body:
+              application/json:
+                schema: !include apimanager/schemas/managedServices/managedServiceApiPolicyPost.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/policyPost.json
+          get:
+            headers:
+              if-none-match:
+                description: Last modification date (EPOC)
+                type: number
+                required: false
+            queryParameters:
+              fullInfo:
+                type: boolean
+                default: true
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/policies.json
+              304:
+          /{policyId}:
+            description: A managed service API policy.
+            uriParameters:
+              policyId:
+                type: integer
+                minimum: 1
+                maximum: 2147483647
+            get:
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/managedServices/policy.json
+            patch:
+              description: Updates a Managed Service API Policy
+              body:
+                application/json:
+                  schema: !include apimanager/schemas/managedServices/managedServiceApiPolicyPatch.json
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/managedServices/policyPatch.json
+            delete:
+              description: Unapplies a policy.
+              responses:
+                204:
+
+        /tiers:
+          description: Manages Managed Sevice API Tiers
+          get:
+            description: Retrieves the tiers of a Managed Service API
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/managedServiceApiTiersRetrieve.json
+          post:
+            description: Creates a tier for a Managed Service API
+            body:
+              application/json:
+                schema:  !include apimanager/schemas/managedServices/managedServiceApiTier.json
+                example: !include apimanager/examples/requests/managedServices/managedServiceApiTier.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/managedServiceApiTier.json
+          /{tierId}:
+            put:
+              description: Edit a tier of a Managed Service API
+              body:
+                application/json:
+                  schema:  !include apimanager/schemas/managedServices/managedServiceApiTierPut.json
+                  example: !include apimanager/examples/requests/managedServices/managedServiceApiTier.json
+              responses:
+                201:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/managedServices/managedServiceApiTier.json
+            delete:
+              description: Delete a tier of a Managed Service API
+              responses:
+                204:
+        /contracts:
+          description: Manages Managed Sevice API Contracts
+          get:
+            description: Retrieves the contracts of a Managed Service API
+            responses:
+              200:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/managedServiceApiContractsRetrieve.json
+          post:
+            description: Creates a contract for a Managed Service API
+            body:
+              application/json:
+                schema:  !include apimanager/schemas/managedServices/managedServiceApiContract.json
+                example: !include apimanager/examples/requests/managedServices/managedServiceApiContract.json
+            responses:
+              201:
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/managedServices/managedServiceApiContract.json
+          /{contractId}:
+            get:
+              description: Retrieves a contract of a Managed Service API
+              responses:
+                200:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/managedServices/managedServiceApiContractRetrieve.json
+            patch:
+              description: Edit a contract of a Managed Service API
+              body:
+                application/json:
+                  schema:  !include apimanager/schemas/managedServices/managedServiceApiContractPatch.json
+                  example: !include apimanager/examples/requests/managedServices/managedServiceApiContractPatch.json
+              responses:
+                201:
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/managedServices/managedServiceApiContract.json
+            delete:
+              description: Delete a contract of a Managed Service API
+              responses:
+                204:
+  /custom-policy-templates:
+    description: |
+      Custom Policy Templates are the basis for creating new policies.
+      The platform provides out of the box with several policies and new
+      ones can be added using this API.
+    type: collection
+    get:
+      description: Retrieves a list of custom policy templates.
+      is: [ searchable ]
+      responses:
+        200:
+    post:
+      description: Creates a new custom policy.
+      body:
+        multipart/form-data:
+      responses:
+        201:
+        409:
+
+    /{customPolicyTemplateId}:
+      description: A custom policy template.
+      type: collectionItem
+      uriParameters:
+        customPolicyTemplateId:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+
+      /configuration:
+        get:
+          description: The XML configuration for the custom policy template.
+          responses:
+            200:
+              body:
+                application/xml:
+
+      /definition:
+        get:
+          description: The YAML definition for the custom policy template.
+          responses:
+            200:
+              body:
+                application/yaml:
+
+  /policy-templates:
+    description: |
+      Policy Templates are the basis for creating new policies.
+      The platform provides out of the box with several policies and new
+      ones can be added by MuleSoft Support Team if needed.
+    get:
+      description: Retrieve a list of policy templates.
+      queryParameters:
+        apiInstanceId:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+        version:
+          type: string
+          pattern: ^v\d+(.\d+)?(.\d+)?$
+      responses:
+        200:
+          description: Successful.
+        400:
+          description: Bad Request.
+        406:
+          description: The requested accept type is not supported.
+        500:
+          description: An unknown error occurred.
+
+    /{policyTemplateId}:
+      uriParameters:
+        policyTemplateId:
+          type: string
+      get:
+        description: |
+          Retrieve specific details from the policy template, including the full
+          XML that is being injected as well as all of its configuration parameters.
+        queryParameters:
+          version:
+            type: string
+            pattern: ^v\d+(.\d+)?(.\d+)?$
+        responses:
+          200:
+            description: Successful.
+          400:
+            description: Bad Request.
+          404:
+            description: There is no policy template defined under the specified id.
+          406:
+            description: The requested accept type is not supported.
+          500:
+            description: An unknown error occurred.
+
+  /automated-policies:
+    description: A collection of Automated Policies
+    type: collection
+    head:
+      description: Get count of Automated Policies that apply to a certain scope.
+      queryParameters:
+        environmentId:
+          description: A string that will be checked for an exact match of the Environment ID
+          type: string
+          minLength: 1
+          required: true
+        runtimeVersion:
+          description: A semver string that will be checked for an exact match of Runtime Version
+          type: string
+          example: 4.1.1
+      responses:
+        200:
+          description: Successful
+    get:
+      description: Searches for a list of Automated Policies that apply to a certain scope.
+      queryParameters:
+        environmentId:
+          description: A string that will be checked for an exact match of the Environment ID
+          type: string
+          minLength: 1
+          required: true
+        runtimeVersion:
+          description: A semver string that will be checked for an exact match of Runtime Version
+          type: string
+          example: 4.1.1
+      responses:
+        200:
+          description: Successful
+          body:
+            application/json:
+              example: !include apimanager/examples/responses/automatedPolicies/automatedPoliciesSearch.json
+        400:
+          description: Bad request
+    post:
+      description: Creates an Automated Policy
+      body:
+        application/json:
+          schema:  !include apimanager/schemas/automatedPolicy.json
+          example: !include apimanager/examples/requests/automatedPolicy.json
+      responses:
+        201:
+          description: Automated Policy was created successfully
+        400:
+          description: Bad request
+        409:
+          description: Automated Policy creation had a conflict
+
+    /{automatedPolicyId}:
+      description: A automated policy
+      type: collectionItem
+      uriParameters:
+        automatedPolicyId:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+      get:
+        description: Retrieves an Automated Policy
+        responses:
+          200:
+            description: Successful
+            body:
+              application/json:
+                example: !include apimanager/examples/responses/automatedPolicies/automatedPoliciesRetrieve.json
+      patch:
+        description: Updates an Automated Policy
+        body:
+          application/json:
+            schema:  !include apimanager/schemas/automatedPolicyPATCH.json
+            example: !include apimanager/examples/requests/automatedPolicy.json
+        responses:
+          200:
+            description: Automated Policy successfully updated
+          400:
+            description: Bad request
+      delete:
+        description: Deletes an Automated Policy
+        responses:
+          204:
+            description: Automated Policy successfully deleted
+          400:
+            description: Bad request
+      /apis:
+        description: Get deployed APIs affected by Automated Policy
+        get:
+          queryParameters:
+            type:
+              type: string
+              enum: [include, exclude, all]
+              default: include
+              description: Type of query.
+            deployedOnly:
+              type: boolean
+              default: true
+              description: Type of requested APIs.
+            runtimes:
+              type: string
+              default: mule3,mule4,flexGateway
+            offset:
+              description: Offset on the amount of assets (each of which has all its apis)
+              type: integer
+              default: 0
+            limit:
+              description: Limit on the amount of assets (each of which has all its apis)
+              type: integer
+              default: 100
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/apiDefinitions.json
+      /implementationAssets:
+        post:
+          description: Update implementation assets
+          queryParameters:
+            dryRun:
+              description: Perform a dry run of the implementation update
+              type: boolean
+              default: false
+          responses:
+            201:
+              description: Implementation asset successfully deployed
+            404:
+  /groups:
+    description: A collection of Groups
+    type: collection
+
+    get:
+      description: Retrieves all groups within an organization.
+      queryParameters:
+        name:
+          description: Search groups by name
+          type: string
+          example: Social Media
+          required: false
+
+      responses:
+        200:
+          description: Successful
+          body:
+            application/json:
+              example: !include apimanager/examples/responses/apiGroups/groupsSearch.json
+        400:
+          description: Bad request
+
+    post:
+      description: Creates a Group
+      body:
+        application/json:
+          schema:  !include apimanager/schemas/apiGroups/group.json
+          example: !include apimanager/examples/requests/apiGroups/groupCreation.json
+      responses:
+        201:
+          description: Group was created successfully
+          body:
+            application/json:
+              example: !include apimanager/examples/responses/apiGroups/groupCreation.json
+        400:
+          description: Bad request
+
+    /{groupId}:
+      description: A Group
+      type: collectionItem
+      uriParameters:
+        groupId:
+          type: integer
+          minimum: 1
+          maximum: 2147483647
+
+      get:
+        description: Retrieves a Group
+        responses:
+          200:
+            description: Successful
+            body:
+              application/json:
+                example: !include apimanager/examples/responses/apiGroups/groupRetrieve.json
+          404:
+            description: Group not found
+
+      patch:
+        description: Updates a Group
+        body:
+          application/json:
+            schema:  !include apimanager/schemas/apiGroups/groupUpdate.json
+            example: !include apimanager/examples/requests/apiGroups/groupUpdate.json
+        responses:
+          200:
+            description: Group successfully updated
+          400:
+            description: Bad request
+
+      /assets:
+        post:
+          description: Create a group asset
+          body:
+            application/json:
+              schema: !include apimanager/schemas/apiGroups/publishGroupVersion.json
+          responses:
+            200:
+              description: Group asset successfully created
+            400:
+              description: Bad request
+
+      /versions:
+        post:
+          description: Creates a Group Version
+          body:
+            application/json:
+              schema:  !include apimanager/schemas/apiGroups/groupVersion.json
+              example: !include apimanager/examples/requests/apiGroups/groupVersionCreation.json
+          responses:
+            201:
+              description: Group was created successfully
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/apiGroups/groupVersionCreation.json
+            400:
+              description: Bad request
+
+        get:
+          description: Retrieves all versions of a Group
+          responses:
+            200:
+              description: Successful
+              body:
+                application/json:
+                  example: !include apimanager/examples/responses/apiGroups/groupVersionsRetrieve.json
+
+        /{groupVersionId}:
+          description: A Group Version
+          type: collectionItem
+          uriParameters:
+            groupVersionId:
+              type: integer
+              minimum: 1
+              maximum: 2147483647
+
+          get:
+            description: Retrieves a Group Version
+            responses:
+              200:
+                description: Successful
+                body:
+                  application/json:
+                    example: !include apimanager/examples/responses/apiGroups/groupVersionRetrieve.json
+              404:
+                description: Group Version not found
+
+          patch:
+            description: Updates a Group Version
+            body:
+              application/json:
+                schema:  !include apimanager/schemas/apiGroups/groupVersionUpdate.json
+                example: !include apimanager/examples/requests/apiGroups/groupVersionUpdate.json
+            responses:
+              200:
+                description: Group Version successfully updated
+              400:
+                description: Bad request
+              404:
+                description: Group Version not found
+
+          /instances:
+            get:
+              description: Retrieves the instances contained in a Group Version
+              responses:
+                200:
+                  description: Successful
+                  body:
+                    application/json:
+                      example: !include apimanager/examples/responses/apiGroups/groupInstancesRetrieve.json
+                404:
+                  description: Group Version not found

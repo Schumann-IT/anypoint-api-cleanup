@@ -1,0 +1,11 @@
+{
+  "client_name": "SampleClient",
+  "redirect_uris": [
+    "https://localhost:3000/callback",
+    "https://example.com/auth-callback"
+  ],
+  "grant_types": [
+    "implicit",
+    "authorization_code"
+  ]
+}

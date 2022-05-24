@@ -1,0 +1,15 @@
+#%RAML 1.0 Trait
+
+responses:
+  429:
+    description: Too many requests
+    headers:
+      X-RateLimit-Limit:
+        type: number
+        description: The maximum number of requests you're permitted to make in the rate limit window.
+      X-RateLimit-Remaining:
+        type: number
+        description: The number of requests remaining in the current rate limit window.
+      X-RateLimit-Reset:
+        type: number
+        description: The time at which the current rate limit window resets in UTC epoch seconds.

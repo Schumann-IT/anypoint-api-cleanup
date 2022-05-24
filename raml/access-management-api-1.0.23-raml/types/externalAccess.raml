@@ -1,0 +1,44 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for external access
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+  OrganizationExternalAccess:
+    additionalProperties: false
+    properties:
+      domain: string
+
+  OrganizationExternalAccessDetailed:
+    type: OrganizationExternalAccess
+    properties:
+      details:
+        properties:
+          name:
+            type: string
+            required: false
+          id:
+            type: primitives.uuid
+            required: false
+
+  DomainTestsResult:
+    type: OrganizationExternalAccessDetailed
+    properties:
+      shareable: boolean
+
+  OrganizationExternalAccessArray:
+    type: array
+    items:
+      type: OrganizationExternalAccess
+
+  OrganizationExternalAccessDetailedArray:
+    type: array
+    items:
+      type: OrganizationExternalAccessDetailed
+
+  DomainTestsResultArray:
+    type: array
+    items:
+      type: DomainTestsResult

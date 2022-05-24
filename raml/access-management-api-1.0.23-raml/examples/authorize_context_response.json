@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "namespace": "cloudhub",
+      "resource": "/organizations/614b40bf-6eb6-49ac-82f4-d8332b6f4d1b/environments/a4685c7a-08fe-45d7-9e29-87b84223d251/applications",
+      "resourceTemplate": "/organizations/{{org}}/environments/{{envId}}/applications",
+      "resourceTemplateParams": {"org": "614b40bf-6eb6-49ac-82f4-d8332b6f4d1b", "envId": "a4685c7a-08fe-45d7-9e29-87b84223d251" },
+      "actions": ["GET"]
+    },
+    {
+      "namespace": "cloudhub",
+      "resource": "/organizations/614b40bf-6eb6-49ac-82f4-d8332b6f4d1b/environments/05e35d44-405a-4693-81ce-4e78e9a72891/applications",
+      "resourceTemplate": "/organizations/{{org}}/environments/{{envId}}/applications",
+      "resourceTemplateParams": {"org": "614b40bf-6eb6-49ac-82f4-d8332b6f4d1b", "envId": "05e35d44-405a-4693-81ce-4e78e9a72891" },
+      "actions": ["GET"]
+    },
+    {
+      "namespace": "cloudhub",
+      "resource": "/organizations/d71ef2da-40cf-415b-80fd-eab0a7130bc8/environments/*/applications",
+      "resourceTemplate": "/organizations/{{org}}/environments/{{envId}}/applications",
+      "resourceTemplateParams": {"org": "d71ef2da-40cf-415b-80fd-eab0a7130bc8", "envId": "*" },
+      "actions": ["GET"]
+    }
+  ],
+  "total": 3
+}

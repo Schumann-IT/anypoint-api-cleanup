@@ -1,0 +1,44 @@
+[
+  {
+    "id": 600,
+    "invited_at": "2022-01-13T19:51:55.433Z",
+    "invited_by_user": {
+      "id": "d4691cf7-6cf6-4eb0-b095-87a3b2072a0a",
+      "username": "hub_org_admin",
+      "first_name": "HubOrgAdmin",
+      "last_name": "Administrator"
+    },
+    "hub_org": {
+      "id": "025abacc-e018-4e38-a117-8c1e6251006c",
+      "name": "Anypoint Org"
+    },
+    "spoke_org": {
+      "id": "c731e714-35c2-4e08-98ae-9b843129f4fb",
+      "name": "Composer Org 1"
+    },
+    "status": "PENDING",
+    "completed_at": null,
+    "completed_by_user": null
+  },
+  {
+    "id": 601,
+    "invited_at": "2022-01-13T19:51:55.433Z",
+    "invited_by_user": {
+      "id": "d4691cf7-6cf6-4eb0-b095-87a3b2072a0a",
+      "username": "hub_org_admin",
+      "first_name": "HubOrgAdmin",
+      "last_name": "Administrator"
+    },
+    "hub_org": {
+      "id": "025abacc-e018-4e38-a117-8c1e6251006c",
+      "name": "Anypoint Org"
+    },
+    "spoke_org": {
+      "id": "74b1bbb0-d8e4-4c34-a501-2cce62d7df9e",
+      "name": "Composer Org 2"
+    },
+    "status": "PENDING",
+    "completed_at": null,
+    "completed_by_user": null
+  }
+]

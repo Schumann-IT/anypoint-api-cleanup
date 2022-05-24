@@ -1,0 +1,210 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for teams
+
+uses:
+  primitives: ./primitives.raml
+  roles: ./roles.raml
+
+types:
+  TeamName:
+    description: The name of the team. Name is unique among teams within the organization.
+    type: string
+    minLength: 1
+    maxLength: 255
+    pattern: ^[a-zA-Z\d\-_\s]+$
+
+  TeamType:
+    description: |
+      The type of the team.
+      Internal teams are visible to all members of the organziation. All internal teams of an organization are under the root internal team.
+      External teams are for grouping users that do not belong to the organization but collaborate with or consume content with the organization. All members of each team under the root external team must belong to the same master organization.
+      Private teams are internal teams but are only visible by maintainers/members of the team.
+      Shared teams are internal teams that can be mapped to external teams in other organizations where a trust relationship has been formed.
+      Legacy teams are teams that cannot be moved and were migrated from existing Roles of the organization.
+    type: string
+    enum: [internal, external, private, shared, legacy]
+
+  UpdateableTeamType:
+    description: The TeamTypes that are updatable.
+    type: string
+    enum: [internal, private, shared]
+
+  Team:
+    description: |
+      A Team. For internal/private/shared teams, all fields except external_org_id are returned.
+      For external teams, external_org_id is returned but the other optional fields are not.
+    additionalProperties: false
+    properties:
+      team_id:
+        description: The id of the team. Team_id is globally unique.
+        type: primitives.IdString
+      org_id:
+        description: The master organization id where the team is defined.
+        type: primitives.uuid
+      org_name:
+        description: The name of the master organization that manages the team.
+        type: string
+      team_name:
+        type: TeamName
+      team_type:
+        description: The type of the team.
+        type: TeamType
+      external_org_id?:
+        description: |
+          For external teams, this is the master organization id where the members of this team are members.
+          For internal/private/shared teams, this field is not applicable/present.
+        type: primitives.uuid
+      external_org_name?:
+        description: |
+          For external teams, this is the master organization's name where the members of this team are members.
+          For internal/private/shared teams, this field is not applicable/present.
+        type: string
+      ancestor_team_ids:
+        description: Array of ancestor teams ids starting from either the internal or external root team down to this team's parent.
+        type: array
+        items: primitives.IdString
+      created_at?:
+        description: The time the team was created.
+        type: datetime
+      updated_at?:
+        description: The time the team was last modified.
+        type: datetime
+
+  TeamCreate:
+    additionalProperties: false
+    properties:
+      parent_team_id:
+        description: The team_id of the parent of this team.
+        type: primitives.IdString
+      team_name:
+        type: TeamName
+      team_type:
+        description: |
+          The type of the team.
+          Internal teams are visible to all members of the organziation. All internal teams of an organization are under the root internal team.
+          Private teams are internal teams but are only visible by maintainers/members of the team.
+          Shared teams are internal teams that can be mapped to external teams in other organizations where a trust relationship has been formed.
+        type: UpdateableTeamType
+
+  TeamUpdate:
+    additionalProperties: false
+    properties:
+      team_name?:
+        type: TeamName
+      team_type?:
+        description: |
+          The type of the team.
+          Internal teams are visible to all members of the organziation. All internal teams of an organization are under the root internal team.
+          Private teams are internal teams but are only visible by maintainers/members of the team.
+          Shared teams are internal teams that can be mapped to external teams in other organizations where a trust relationship has been formed.
+          If the parent team is external, this team must be external. If the parent team is private, this team must be private. If a child team is not private, this team can not be private
+        type: UpdateableTeamType
+
+  TeamMove:
+    additionalProperties: false
+    properties:
+      parent_team_id:
+        description: |
+          The id of the new parent team to move this team under. Specifying a new parent_team_id will move this team.
+          parent_team_id can only be changed if the user has permissions and the type constraints are allowed.
+        type: primitives.IdString
+
+  TeamMemberType:
+    type: string
+    enum: [ member, maintainer ]
+
+  TeamMemberBase:
+    description: Team members are either users or other teams.
+    additionalProperties: false
+    properties:
+      identity_type:
+        enum: [team, user]
+      id:
+        description: the id of the member. For teams, this is the team's team_id. For users, this is the user's id.
+        type: primitives.IdString
+      team_name:
+        description: The name of the team or the first & last name of the user.
+        type: string
+        minLength: 1
+        maxLength: 255
+      membership_type:
+        description: Whether the member is a regular member or a maintainer. Only users may be team maintainers.
+        type: TeamMemberType
+
+  TeamMember:
+    additionalProperties: false
+    type: TeamMemberBase
+    properties:
+      is_assigned_via_external_groups:
+        description: whether team membership was granted due to an external group.
+        type: boolean
+      created_at:
+        description: The time the team was created.
+        type: datetime
+      updated_at:
+        description: The time the team was last modified.
+        type: datetime
+
+  TeamMemberAdd:
+    additionalProperties: false
+    properties:
+      membership_type:
+        description: Whether the member is a regular member or a maintainer. Only users may be team maintainers.
+        type: TeamMemberType
+
+  TeamMemberBulkAdd:
+    type: array
+    minItems: 1
+    maxItems: 100
+    items:
+      additionalProperties: false
+      properties:
+        id:
+          description: id of the user to add to the team.
+          type: primitives.IdString
+        membership_type:
+          description: Whether the member is a regular member or a maintainer. Only users may be team maintainers.
+          type: TeamMemberType
+
+  TeamMemberIdArray:
+    type: array
+    minItems: 1
+    maxItems: 100
+    items: primitives.IdString
+
+  TeamIsMemberOf:
+    type: Team
+    additionalProperties: false
+    properties:
+      membership_type:
+        description: Whether the member is a regular member or a maintainer.
+        type: TeamMemberType
+      is_assigned_via_external_groups:
+        description: whether team membership was granted due to an external group.
+        type: boolean
+
+  TeamExternalGroupMapping:
+    additionalProperties: false
+    type: object
+    properties:
+      membership_type:
+        type: TeamMemberType
+      external_group_name:
+        type: string
+        minLength: 1
+        maxLength: 255
+      provider_id?:
+        type: primitives.uuid
+
+  TeamExternalGroupMappingList:
+    type: array
+    items: TeamExternalGroupMapping
+
+  TeamRoleSearchResult:
+    additionalProperties: false
+    type: Team
+    properties:
+      assignments:
+        type: array
+        items: roles.RoleAssignmentDetailedWithDate

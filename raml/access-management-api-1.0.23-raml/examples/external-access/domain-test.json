@@ -1,0 +1,15 @@
+[
+  {
+    "domain": "foo",
+    "shareable": true,
+    "details": {
+      "name": "Foo Banking",
+      "id": "fff6cf9b-2ade-4563-bf9d-03953592a170"
+    }
+  },
+  {
+    "domain": "bar",
+    "shareable": false,
+    "details": {}
+  }
+]

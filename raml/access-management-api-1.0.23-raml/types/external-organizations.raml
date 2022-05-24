@@ -1,0 +1,23 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for External Organizations
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+  ExternalOrganization:
+    description: |
+      External Organizations that could be granted access to resources of the current organization.
+    properties:
+      id:
+        description: The Master Organization id.
+        type: primitives.IdString
+      name:
+        description: The Master Organization name.
+        type: string
+        minLength: 1
+        maxLength: 255
+      domain:
+        description: The domain of the master organization.
+        type: string

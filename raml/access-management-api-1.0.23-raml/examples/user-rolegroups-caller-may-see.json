@@ -1,0 +1,83 @@
+{
+  "data": [
+    {
+      "role_group_id": "36c6f48a-f26a-44b0-9789-dd8edd0f2df9",
+      "name": "Organization Administrators",
+      "description": "Organization Administrators",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "9ca1f615-45f8-4f36-86a0-ed1fe43cb551",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "458b2756-6dfe-459a-9266-b5e79e5d074c",
+      "name": "Cloudhub Admin (Sandbox)",
+      "description": "Cloudhub (Sandbox) Admin users",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "3502c24f-eaac-49c6-bf1e-b2c19b1f8db8",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "52de3521-906e-406f-8930-517897b0a0ee",
+      "name": "Cloudhub Admin (Sandbox)",
+      "description": "Cloudhub (Sandbox) Admin users",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "37cbeba9-e489-4309-85cc-ff6d4a3035e3",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "95ab11f7-43be-4f7e-abc7-d258d6eb439a",
+      "name": "Organization Administrators",
+      "description": "Organization Administrators",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "3b01414f-57d4-44cf-85b4-e357cd381827",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "bca51325-54e5-41fa-9cfa-0e1b64cefa01",
+      "name": "Cloudhub Admin (Design)",
+      "description": "Cloudhub (Design) Admin users",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "c345d5b6-7df5-4220-9731-d754f4dd79db",
+      "user_count": 1
+    },
+    {
+      "role_group_id": "d0473f21-8424-4aea-9fec-be54b9f84cf8",
+      "name": "Cloudhub Admin (Design)",
+      "description": "Cloudhub (Design) Admin users",
+      "external_names": [],
+      "editable": false,
+      "org_id":"27a9bd7e-f962-4287-94ff-b3f4ae7a2c20",
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "context_params": {},
+      "user_role_group_id": "c1757a9f-a72c-440c-a775-c125ce4fa466",
+      "user_count": 1
+    }
+  ],
+  "total": 6
+}

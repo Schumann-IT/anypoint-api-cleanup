@@ -1,0 +1,29 @@
+{
+  "data": [
+    {
+      "created_at": "2021-02-27T01:32:59.572Z",
+      "updated_at": "2021-02-27T01:32:59.572Z",
+      "role_group_id": "1af07a40-cf95-4ed5-a312-7bd453576ac9",
+      "name": "f25df118-08c9-496d-9689-3690eeac6eba",
+      "description": "d50d05da-880a-4d75-beab-d3c2c1398e10",
+      "org_id": "7dc95b9d-aae3-426c-a86d-7f6b19265af1",
+      "editable": true,
+      "external_names": [{
+        "external_group_name": "my external group",
+        "provider_id": "2e50e859-0042-46ff-8cf8-1ad6f0c78b67"
+      }],
+      "user_count": 1,
+      "assignments": [
+        {
+          "role_id": "f5b8dd3e-8988-4f39-afab-79f86c710cd4",
+          "context_params": {
+            "org": "7dc95b9d-aae3-426c-a86d-7f6b19265af1"
+          },
+          "created_at": "2021-02-26T17:32:59.606836"
+        }
+      ],
+      "org_name": "and Sons0"
+    }
+  ],
+  "total": 1
+}

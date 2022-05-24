@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "id": "f0c9b011-980e-4928-9430-e60e3a97c043",
+      "organizationId": "70b3f7cb-614c-4276-b0cd-4f73db11602c",
+      "name": "Development",
+      "isProduction": true,
+      "type": "production",
+      "clientId": "abdf31490ba44484a1de789baf685e37",
+      "defaultClientManagementProvider": {
+        "providerId": "2e50e859-0042-46ff-8cf8-1ad6f0c78b67",
+        "organizationId": "2e71d283-6248-4c81-98eb-e254a89b7e0a",
+        "name": "Production Client Management Config",
+        "type": {
+          "description": "PingFederate",
+          "name": "ping"
+        }
+      },
+      "suggestedClientManagementProviderCount": 3
+    }
+  ],
+  "total": 1
+}

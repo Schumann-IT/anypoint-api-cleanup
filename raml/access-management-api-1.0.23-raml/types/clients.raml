@@ -1,0 +1,40 @@
+#%RAML 1.0 Library
+
+usage: Type definitions for clients
+
+uses:
+  primitives: ./primitives.raml
+
+types:
+  ClientProviderClient:
+    additionalProperties: false
+    properties:
+      client_name?:
+        type: string
+        minLength: 1
+        maxLength: 255
+      client_id?:
+        type: string
+        minLength: 1
+        maxLength: 255
+      client_secret?:
+        type: string
+        minLength: 10
+        maxLength: 255
+      grant_types?:
+        type: array
+        items:
+          type: string
+          minLength: 1
+      redirect_uris?:
+        type: array
+        items:
+          type: string
+          minLength: 1
+
+  OrgClientsSearch:
+    additionalProperties: false
+    properties:
+      name?: primitives.IdString
+      client_id?: primitives.IdString[]
+      client_management_provider_id?: primitives.uuid[]

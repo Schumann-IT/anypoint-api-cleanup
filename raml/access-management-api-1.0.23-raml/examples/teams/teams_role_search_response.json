@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "team_id": "f59632be-e43f-4c4f-a303-36b8b0623f29",
+      "team_name": "IT",
+      "org_id": "6cb9cf0c-de02-4403-ace9-1857c0d0425f",
+      "org_name": "Mythical Bank",
+      "team_type": "internal",
+      "ancestor_team_ids": ["6cad8143-5f3c-4258-8091-2e664819e7f3"],
+      "created_at": "2019-07-15T09:36:07.123Z",
+      "updated_at": "2019-07-15T09:36:07.123Z",
+      "assignments": [
+        {
+          "role_id": "53823f29-6e57-4c42-acdb-e42a881a888f",
+          "name": "Manage Servers",
+          "context_params": {
+            "org": "7f30ff47-5917-4a5a-b94d-9fe029edc04d",
+            "envId": "4c4efd56-9232-4f41-bb5c-4990539d519f"
+          },
+          "created_at": "2019-10-21T11:11:48.204521-07:00"
+        }
+      ]
+    }
+  ],
+  "total": 1
+}
