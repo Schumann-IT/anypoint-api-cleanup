@@ -1,6 +1,0 @@
-{
-  "displayName": "Medical Discipline",
-  "tagKey": "medical-discipline",
-  "dataType": "number",
-  "assetTypeRestrictions": ["connector", "rest-api"]
-}

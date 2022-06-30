@@ -1,6 +1,0 @@
-[
-  {
-    "environment": "production",
-    "url": "localhost:8088/api/v1"
-  }
-]

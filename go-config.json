@@ -1,0 +1,11 @@
+{
+  "disallowAdditionalPropertiesIfNotPresent": false,
+  "enumClassPrefix": false,
+  "generateInterfaces": false,
+  "hideGenerationTimestamp": true,
+  "isGoSubmodule": true,
+  "prependFormOrBodyParameters": false,
+  "structPrefix": false,
+  "withAWSV4Signature": false,
+  "withXml": false
+}

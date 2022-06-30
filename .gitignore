@@ -1,5 +1,8 @@
-*.zip
 *.tgz
 node_modules
 .DS_Store
 .idea
+raml
+oas
+gen
+openapi-generator-cli.jar

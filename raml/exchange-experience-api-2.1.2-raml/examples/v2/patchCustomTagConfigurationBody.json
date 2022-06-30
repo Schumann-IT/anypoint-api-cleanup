@@ -1,6 +1,0 @@
-{
-  "displayName": "Medical Discipline",
-  "dataType": "enum",
-  "assetTypeRestrictions": ["connector", "rest-api"],
-  "acceptedValues": ["cardiology", "nephrology"]
-}
