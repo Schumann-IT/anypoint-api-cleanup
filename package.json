@@ -6,7 +6,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "adm-zip": "^0.5.9",
+    "adm-zip": "^0.6.1",
     "webapi-parser": "^0.5.0"
   },
   "scripts": {
